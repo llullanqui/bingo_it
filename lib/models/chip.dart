@@ -1,12 +1,12 @@
 import 'package:bingo_it/models/chip_table.dart';
 
-class Chip {
+class ChipModel {
   bool _done = false;
   final String _text;
-  final ChipTable _table;
+  final ChipTableModel _table;
 
-  Chip.withDone(this._text, this._done, this._table);
-  Chip(this._text, this._table);
+  ChipModel.withDone(this._text, this._done, this._table);
+  ChipModel(this._text, this._table);
 
   bool get done {
     return _done;
@@ -19,5 +19,9 @@ class Chip {
   void toggle() {
     _done = !_done;
     _done ? _table.addCompletedChip() : _table.removeCompletedChip();
+  }
+
+  void takeAwayFromTable() {
+    _table.removeChip(this);
   }
 }

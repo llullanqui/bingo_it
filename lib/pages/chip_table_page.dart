@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 class ChipTablePage extends StatefulWidget {
   const ChipTablePage({super.key, required this.chipTable});
 
-  final ChipTable chipTable;
+  final ChipTableModel chipTable;
 
   @override
   State<ChipTablePage> createState() => _ChipTablePageState();
 }
 
 class _ChipTablePageState extends State<ChipTablePage> {
-  ChipTable? chipTable;
+  ChipTableModel? chipTable;
   String textboxValue = "";
   bool readyToPlay = false;
   late TextEditingController _textController;
@@ -197,10 +197,14 @@ class _ChipTablePageState extends State<ChipTablePage> {
     List<Widget> widgetList = List.empty(growable: true);
     for (var element in chipTable!.chips) {
       widgetList.add(BingoChip(
+        chip: element,
         text: element.text,
-        onDelete: () {},
+        onDelete: () {
+          setState(() {});
+        },
         onDone: () {},
         container: [],
+        enabled: readyToPlay,
       ));
     }
     return widgetList;
