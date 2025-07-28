@@ -5,16 +5,12 @@ class BingoChip extends StatefulWidget {
   const BingoChip({
     super.key,
     required this.chip,
-    required this.text,
-    required this.container,
     required this.onDelete,
     required this.onDone,
     required this.enabled,
   });
 
   final ChipModel chip;
-  final String text;
-  final List<Widget> container;
   final Function onDelete;
   final Function onDone;
   final bool enabled;
@@ -24,15 +20,13 @@ class BingoChip extends StatefulWidget {
 }
 
 class _BingoChipState extends State<BingoChip> {
-  bool done = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: widget.enabled
             ? () {
                 setState(() {
-                  done = true;
+                  widget.chip.toggle();
                 });
                 widget.onDone();
               }
@@ -64,9 +58,10 @@ class _BingoChipState extends State<BingoChip> {
         },
         child: CircleAvatar(
           radius: 40,
-          backgroundColor:
-              done ? Colors.green : Theme.of(context).colorScheme.onPrimary,
-          child: Text(widget.text),
+          backgroundColor: widget.chip.done
+              ? Colors.green
+              : Theme.of(context).colorScheme.onPrimary,
+          child: Text(widget.chip.text),
         ));
   }
 }

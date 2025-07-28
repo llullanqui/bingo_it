@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it/state/current_table.dart';
 import 'package:bingo_it/widgets/bingo_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChipTablePage extends StatefulWidget {
-  const ChipTablePage({super.key, required this.chipTable});
-
-  final ChipTableModel chipTable;
+  const ChipTablePage({super.key});
 
   @override
   State<ChipTablePage> createState() => _ChipTablePageState();
@@ -15,13 +17,19 @@ class _ChipTablePageState extends State<ChipTablePage> {
   ChipTableModel? chipTable;
   String textboxValue = "";
   bool readyToPlay = false;
+  bool playing = false;
   late TextEditingController _textController;
 
   @override
   void initState() {
     super.initState();
-    chipTable = widget.chipTable;
     _textController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    chipTable = Provider.of<CurrentTable>(context, listen: false).currentTable;
   }
 
   @override
@@ -32,6 +40,27 @@ class _ChipTablePageState extends State<ChipTablePage> {
 
   bool _minimumAmountFilled() {
     return chipTable!.chipsAmount >= 5;
+  }
+
+  Future<void> _saveTable() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? existingTablesJson = prefs.getString('saved_tables');
+    List<ChipTableModel> savedTables = [];
+
+    if (existingTablesJson != null) {
+      final List<dynamic> decoded = jsonDecode(existingTablesJson);
+      savedTables =
+          decoded.map((table) => ChipTableModel.fromJson(table)).toList();
+    }
+
+    savedTables.add(chipTable!);
+    final encoded =
+        jsonEncode(savedTables.map((table) => table.toJson()).toList());
+    await prefs.setString('saved_tables', encoded);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Table saved successfully!')),
+    );
   }
 
   void _addBingoChip(String text) {
@@ -65,6 +94,7 @@ class _ChipTablePageState extends State<ChipTablePage> {
 
   Widget _startButton() {
     return FloatingActionButton(
+      heroTag: "start_button",
       onPressed: () async {
         final result = await showDialog(
             context: context,
@@ -100,6 +130,7 @@ class _ChipTablePageState extends State<ChipTablePage> {
 
   Widget _addButton() {
     return FloatingActionButton(
+      heroTag: "add_button",
       onPressed: () async {
         final result = await showDialog(
             context: context,
@@ -140,6 +171,7 @@ class _ChipTablePageState extends State<ChipTablePage> {
 
   Widget _restartButton() {
     return FloatingActionButton(
+      heroTag: "restart_button",
       onPressed: () async {
         final result = await showDialog(
             context: context,
@@ -173,6 +205,15 @@ class _ChipTablePageState extends State<ChipTablePage> {
     );
   }
 
+  Widget _saveDraftButton() {
+    return FloatingActionButton(
+      heroTag: "save_button",
+      onPressed: _saveTable,
+      tooltip: 'Save Table',
+      child: const Icon(Icons.save),
+    );
+  }
+
   Widget _notReadyActions() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -182,15 +223,30 @@ class _ChipTablePageState extends State<ChipTablePage> {
           width: 4,
         ),
         _addButton(),
+        if (chipTable!.chipsAmount > 0) ...[
+          const SizedBox(
+            width: 4,
+          ),
+          _saveDraftButton(),
+        ],
       ],
     );
   }
 
   Widget _readyActions() {
-    return _restartButton();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        _restartButton(),
+        const SizedBox(
+          width: 4,
+        ),
+        _saveDraftButton(),
+      ],
+    );
   }
 
-  List<Widget> chipsTableWidget() {
+  List<Widget> chipsTableWidget(bool completed) {
     if (chipTable?.chips == null) {
       return List.empty();
     }
@@ -198,15 +254,27 @@ class _ChipTablePageState extends State<ChipTablePage> {
     for (var element in chipTable!.chips) {
       widgetList.add(BingoChip(
         chip: element,
-        text: element.text,
         onDelete: () {
           setState(() {});
         },
-        onDone: () {},
-        container: [],
+        onDone: () {
+          setState(() {});
+        },
         enabled: readyToPlay,
       ));
     }
+    return widgetList;
+  }
+
+  List<Widget> stackChildren() {
+    List<Widget> widgetList = List.empty(growable: true);
+    if (chipTable!.isCompleted) {
+      widgetList.add(Text("YOU WIN!"));
+    }
+    widgetList.add(Wrap(
+      spacing: 8.0,
+      children: chipsTableWidget(chipTable!.isCompleted),
+    ));
     return widgetList;
   }
 
@@ -218,9 +286,8 @@ class _ChipTablePageState extends State<ChipTablePage> {
           title: Text("Bingo it!"),
         ),
         body: Center(
-          child: Wrap(
-            spacing: 8.0,
-            children: chipsTableWidget(),
+          child: Stack(
+            children: stackChildren(),
           ),
         ),
         floatingActionButton:

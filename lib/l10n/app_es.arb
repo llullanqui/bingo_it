@@ -1,0 +1,44 @@
+{
+    "@@locale": "es",
+    "appTitle": "¡Bingo!",
+    "newTable": "Nueva Tabla",
+    "savedTables": "Tablas Guardadas",
+    "addItemHint": "Escribe el elemento que crees que sucederá",
+    "readyToStart": "¿Listo para comenzar?",
+    "sureToRestart": "¿Seguro que quieres reiniciar?",
+    "addAtLeastItems": "Agrega al menos {count} elementos",
+    "@addAtLeastItems": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "yes": "Sí",
+    "no": "No",
+    "ok": "Ok",
+    "letsGo": "¡Vamos!",
+    "cancel": "Cancelar",
+    "add": "Agregar",
+    "restart": "Reiniciar",
+    "saveTable": "Guardar Tabla",
+    "tableSaved": "¡Tabla guardada exitosamente!",
+    "youWin": "¡GANASTE!",
+    "deleteItem": "¿Seguro que quieres eliminar el elemento?",
+    "itemCount": "{count} elementos",
+    "@itemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "completedCount": "{count} completados",
+    "@completedCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
+}

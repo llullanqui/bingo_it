@@ -1,0 +1,44 @@
+{
+    "@@locale": "en",
+    "appTitle": "Bingo it!",
+    "newTable": "New Table",
+    "savedTables": "Saved Tables",
+    "addItemHint": "Write the item you think will happen",
+    "readyToStart": "Ready to start?",
+    "sureToRestart": "Sure you want to restart?",
+    "addAtLeastItems": "Add at least {count} items",
+    "@addAtLeastItems": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "yes": "Yes",
+    "no": "No",
+    "ok": "Ok",
+    "letsGo": "Let's go!",
+    "cancel": "Cancel",
+    "add": "Add",
+    "restart": "Restart",
+    "saveTable": "Save Table",
+    "tableSaved": "Table saved successfully!",
+    "youWin": "YOU WIN!",
+    "deleteItem": "Sure you want to delete the item?",
+    "itemCount": "{count} items",
+    "@itemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "completedCount": "{count} completed",
+    "@completedCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
+}
