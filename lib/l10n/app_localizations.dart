@@ -140,6 +140,12 @@ abstract class AppLocalizations {
   /// **'Add at least {count} items'**
   String addAtLeastItems(int count);
 
+  /// No description provided for @tableDraftsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available chips: {count}'**
+  String tableDraftsSubtitle(int count);
+
   /// No description provided for @yes.
   ///
   /// In en, this message translates to:
@@ -176,11 +182,23 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get add;
 
+  /// No description provided for @startGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Game'**
+  String get startGame;
+
   /// No description provided for @restart.
   ///
   /// In en, this message translates to:
   /// **'Restart'**
   String get restart;
+
+  /// No description provided for @table.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get table;
 
   /// No description provided for @saveTable.
   ///
@@ -193,6 +211,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Table saved successfully!'**
   String get tableSaved;
+
+  /// No description provided for @noSavedTablesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved tables yet'**
+  String get noSavedTablesYet;
 
   /// No description provided for @youWin.
   ///
@@ -217,6 +241,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} completed'**
   String completedCount(int count);
+
+  /// No description provided for @increment.
+  ///
+  /// In en, this message translates to:
+  /// **'Increment'**
+  String get increment;
 }
 
 class _AppLocalizationsDelegate

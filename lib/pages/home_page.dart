@@ -1,3 +1,4 @@
+import 'package:bingo_it/constants/app_constants.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              AppLocalizations.of(context)!.appTitle,
+              AppLocalizations.of(context).appTitle,
               style: TextStyle(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,
@@ -34,9 +35,9 @@ class _HomePageState extends State<HomePage> {
                   textStyle: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/chipTable");
+                  Navigator.pushNamed(context, AppConstants.chipTableRoute);
                 },
-                child: Text(AppLocalizations.of(context)!.newTable),
+                child: Text(AppLocalizations.of(context).newTable),
               ),
             ),
             const SizedBox(height: 24),
@@ -49,9 +50,9 @@ class _HomePageState extends State<HomePage> {
                   textStyle: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/savedTables");
+                  Navigator.pushNamed(context, AppConstants.savedTablesRoute);
                 },
-                child: Text(AppLocalizations.of(context)!.savedTables),
+                child: Text(AppLocalizations.of(context).savedTables),
               ),
             ),
           ],

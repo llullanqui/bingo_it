@@ -32,6 +32,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String tableDraftsSubtitle(int count) {
+    return 'Available chips: $count';
+  }
+
+  @override
   String get yes => 'Yes';
 
   @override
@@ -50,13 +55,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
+  String get startGame => 'Start Game';
+
+  @override
   String get restart => 'Restart';
+
+  @override
+  String get table => 'Table';
 
   @override
   String get saveTable => 'Save Table';
 
   @override
   String get tableSaved => 'Table saved successfully!';
+
+  @override
+  String get noSavedTablesYet => 'No saved tables yet';
 
   @override
   String get youWin => 'YOU WIN!';
@@ -73,4 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String completedCount(int count) {
     return '$count completed';
   }
+
+  @override
+  String get increment => 'Increment';
 }

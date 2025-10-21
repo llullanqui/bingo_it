@@ -6,7 +6,7 @@ class CurrentTable extends ChangeNotifier {
   ChipTableModel _currentTable = ChipTableModel.empty();
   ChipTableModel get currentTable => _currentTable;
 
-  void setCurrentTable(ChipTableModel table) {
+  set currentTable(ChipTableModel table) {
     _currentTable = table;
     notifyListeners();
   }

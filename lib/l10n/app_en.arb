@@ -14,15 +14,26 @@
             }
         }
     },
+    "tableDraftsSubtitle": "Available chips: {count}",
+    "@tableDraftsSubtitle": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "yes": "Yes",
     "no": "No",
     "ok": "Ok",
     "letsGo": "Let's go!",
     "cancel": "Cancel",
     "add": "Add",
+    "startGame": "Start Game",
     "restart": "Restart",
+    "table": "Table",
     "saveTable": "Save Table",
     "tableSaved": "Table saved successfully!",
+    "noSavedTablesYet": "No saved tables yet",
     "youWin": "YOU WIN!",
     "deleteItem": "Sure you want to delete the item?",
     "itemCount": "{count} items",
@@ -40,5 +51,6 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "increment": "Increment"
 }

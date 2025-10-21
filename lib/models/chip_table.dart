@@ -5,6 +5,7 @@ class ChipTableModel {
   int _totalChips = 0;
   int _doneChips = 0;
   bool _completed = false;
+  String? name;
 
   int get completedChips => _doneChips;
 
@@ -14,6 +15,7 @@ class ChipTableModel {
       'totalChips': _totalChips,
       'doneChips': _doneChips,
       'completed': _completed,
+      'name': name,
     };
   }
 
@@ -30,12 +32,14 @@ class ChipTableModel {
     }
     table._totalChips = json['totalChips'];
     table._completed = json['completed'];
+    table.name = json['name'];
     return table;
   }
 
   ChipTableModel(this._chips) {
     _totalChips = _chips.length;
   }
+  ChipTableModel.name(this.name);
   ChipTableModel.empty();
 
   List<ChipModel> get chips {

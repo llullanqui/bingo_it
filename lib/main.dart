@@ -32,9 +32,17 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en'), // English
-          Locale('es'), // Spanish
+          Locale('en'),
+          Locale('es'),
         ],
+        localeListResolutionCallback: (locales, supportedLocales) {
+          for (Locale locale in locales!) {
+            if (supportedLocales.contains(locale)) {
+              return locale;
+            }
+          }
+          return const Locale('en', 'US');
+        },
         routes: {
           '/': (context) => HomePage(),
           '/chipTable': (context) => ChipTablePage(),

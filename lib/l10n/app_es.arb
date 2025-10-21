@@ -14,15 +14,26 @@
             }
         }
     },
+    "tableDraftsSubtitle": "Cantidad de chips: {count}",
+    "@tableDraftsSubtitle": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "yes": "Sí",
     "no": "No",
     "ok": "Ok",
     "letsGo": "¡Vamos!",
     "cancel": "Cancelar",
     "add": "Agregar",
+    "startGame": "Start Game",
     "restart": "Reiniciar",
+    "table": "Tabla",
     "saveTable": "Guardar Tabla",
     "tableSaved": "¡Tabla guardada exitosamente!",
+    "noSavedTablesYet": "Aún no hay tablas guardadas",
     "youWin": "¡GANASTE!",
     "deleteItem": "¿Seguro que quieres eliminar el elemento?",
     "itemCount": "{count} elementos",
@@ -40,5 +51,6 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "increment": "Incremento"
 }
