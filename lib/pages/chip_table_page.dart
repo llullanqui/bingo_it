@@ -46,7 +46,8 @@ class ChipTablePageState extends State<ChipTablePage> {
 
   Future<void> _saveTable() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? existingTablesJson = prefs.getString(AppConstants.savedTablesKey);
+    final String? existingTablesJson =
+        prefs.getString(AppConstants.savedTablesKey);
     List<ChipTableModel> savedTables = [];
 
     if (existingTablesJson != null) {
@@ -80,19 +81,20 @@ class ChipTablePageState extends State<ChipTablePage> {
 
   void _notReadyYetAlert() {
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).addAtLeastItems(AppConstants.minimumChips)),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-                child: const Text('Ok')),
-          ],
-        );
-      });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)
+                .addAtLeastItems(AppConstants.minimumChips)),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('Ok')),
+            ],
+          );
+        });
   }
 
   Widget _startButton() {
@@ -167,7 +169,7 @@ class ChipTablePageState extends State<ChipTablePage> {
           _addBingoChip(result);
         }
       },
-      tooltip: AppLocalizations.of(context).increment,
+      tooltip: AppLocalizations.of(context).add,
       child: const Icon(Icons.add),
     );
   }
@@ -209,17 +211,17 @@ class ChipTablePageState extends State<ChipTablePage> {
 
   Widget _saveDraftButton() {
     return FloatingActionButton(
-      heroTag: "save_button",
+      heroTag: AppConstants.saveButtonHeroTag,
       onPressed: _saveTable,
-      tooltip: 'Save Table',
+      tooltip: AppLocalizations.of(context).saveTable,
       child: const Icon(Icons.save),
     );
   }
 
   Widget _actions() {
-    if(pageStatus == ChipTablePageStatus.playing) {
+    if (pageStatus == ChipTablePageStatus.playing) {
       return _playingActions();
-    } else if(pageStatus == ChipTablePageStatus.completed) {
+    } else if (pageStatus == ChipTablePageStatus.completed) {
       return _setupActions();
     } else {
       return _setupActions();
@@ -273,15 +275,28 @@ class ChipTablePageState extends State<ChipTablePage> {
   }
 
   List<Widget> stackChildren() {
-    List<Widget> widgetList = List.empty(growable: true);
-    if (chipTable!.isCompleted) {
-      widgetList.add(Text(AppLocalizations.of(context).youWin));
-    }
-    widgetList.add(Wrap(
-      spacing: AppConstants.chipSpacing,
-      children: chipsTableWidget(chipTable!.isCompleted),
-    ));
-    return widgetList;
+    return [
+      Visibility(
+        visible: !chipTable!.isCompleted,
+        child: Wrap(
+          spacing: AppConstants.chipSpacing,
+          children: chipsTableWidget(chipTable!.isCompleted),
+        ),
+      ),
+      Visibility(
+        visible: chipTable!.isCompleted,
+        child: RichText(
+          text: TextSpan(
+            text: AppLocalizations.of(context).youWin,
+            style: TextStyle(
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ),
+      ),
+    ];
   }
 
   @override
@@ -292,10 +307,10 @@ class ChipTablePageState extends State<ChipTablePage> {
           title: Text(AppLocalizations.of(context).appTitle),
         ),
         body: Center(
-          child: Stack(
-            children: stackChildren(),
-          ),
-        ),
+            child: Stack(
+          alignment: AlignmentGeometry.center,
+          children: stackChildren(),
+        )),
         floatingActionButton: _actions());
   }
 }

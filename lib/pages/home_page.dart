@@ -1,6 +1,9 @@
+import 'package:bingo_it/models/chip_table.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:bingo_it/constants/app_constants.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:bingo_it/state/current_table.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,6 +38,8 @@ class _HomePageState extends State<HomePage> {
                   textStyle: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
+                  Provider.of<CurrentTable>(context, listen: false)
+                              .currentTable = ChipTableModel.empty();
                   Navigator.pushNamed(context, AppConstants.chipTableRoute);
                 },
                 child: Text(AppLocalizations.of(context).newTable),

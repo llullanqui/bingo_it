@@ -31,7 +31,7 @@
     "startGame": "Start Game",
     "restart": "Restart",
     "table": "Table",
-    "saveTable": "Save Table",
+    "saveTable": "Save Draft Table",
     "tableSaved": "Table saved successfully!",
     "noSavedTablesYet": "No saved tables yet",
     "youWin": "YOU WIN!",

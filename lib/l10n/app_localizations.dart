@@ -203,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @saveTable.
   ///
   /// In en, this message translates to:
-  /// **'Save Table'**
+  /// **'Save Draft Table'**
   String get saveTable;
 
   /// No description provided for @tableSaved.

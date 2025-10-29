@@ -1,3 +1,4 @@
+import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/models/chip.dart';
 import 'package:flutter/material.dart';
 
@@ -36,13 +37,13 @@ class _BingoChipState extends State<BingoChip> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: const Text("Sure you want to delete the item?"),
+                  title: Text(AppLocalizations.of(context).deleteItem),
                   actions: [
                     TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text('No')),
+                        child: Text(AppLocalizations.of(context).no)),
                     TextButton(
                         onPressed: () {
                           setState(() {
@@ -51,7 +52,7 @@ class _BingoChipState extends State<BingoChip> {
                           widget.onDelete();
                           Navigator.pop(context);
                         },
-                        child: const Text('Yes')),
+                        child: Text(AppLocalizations.of(context).yes)),
                   ],
                 );
               });

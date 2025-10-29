@@ -31,7 +31,7 @@
     "startGame": "Start Game",
     "restart": "Reiniciar",
     "table": "Tabla",
-    "saveTable": "Guardar Tabla",
+    "saveTable": "Guardar borrador de Tabla",
     "tableSaved": "¡Tabla guardada exitosamente!",
     "noSavedTablesYet": "Aún no hay tablas guardadas",
     "youWin": "¡GANASTE!",
