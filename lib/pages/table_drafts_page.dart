@@ -69,7 +69,7 @@ class _TableDraftsPageState extends State<TableDraftsPage> {
                         onTap: () {
                           Provider.of<CurrentTable>(context, listen: false)
                               .currentTable = table;
-                          Navigator.pushNamed(context, AppConstants.chipTableRoute);
+                          Navigator.popAndPushNamed(context, AppConstants.chipTableRoute);
                         },
                       ),
                     );

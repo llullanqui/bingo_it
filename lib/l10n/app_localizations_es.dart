@@ -64,7 +64,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get table => 'Tabla';
 
   @override
+  String get save => 'Guardar';
+
+  @override
   String get saveTable => 'Guardar borrador de Tabla';
+
+  @override
+  String get saveTableHint => 'Nombre de la tabla para guardar';
+
+  @override
+  String get saving => 'Guardando...';
 
   @override
   String get tableSaved => '¡Tabla guardada exitosamente!';

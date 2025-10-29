@@ -200,11 +200,29 @@ abstract class AppLocalizations {
   /// **'Table'**
   String get table;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
   /// No description provided for @saveTable.
   ///
   /// In en, this message translates to:
   /// **'Save Draft Table'**
   String get saveTable;
+
+  /// No description provided for @saveTableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Table name to save'**
+  String get saveTableHint;
+
+  /// No description provided for @saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
 
   /// No description provided for @tableSaved.
   ///
