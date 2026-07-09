@@ -1,3 +1,4 @@
+import 'package:bingo_it/constants/app_constants.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/models/chip.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class BingoChip extends StatefulWidget {
 class _BingoChipState extends State<BingoChip> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
         onTap: widget.enabled
             ? () {
                 setState(() {
@@ -57,11 +58,22 @@ class _BingoChipState extends State<BingoChip> {
                 );
               });
         },
-        child: CircleAvatar(
-          radius: 40,
-          backgroundColor: widget.chip.done
-              ? Colors.green
-              : Theme.of(context).colorScheme.onPrimary,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.onPrimary,
+              width: 2
+            ),
+            borderRadius: BorderRadius.circular(AppConstants.chipBorderRadius),
+            color: widget.chip.done
+                ? Colors.green
+                : Theme.of(context).colorScheme.onPrimary,
+          ),
+          padding: EdgeInsets.symmetric(
+            vertical: AppConstants.chipVerticalPadding,
+            horizontal: AppConstants.chipHorizontalPadding,
+          ),
           child: Text(widget.chip.text),
         ));
   }

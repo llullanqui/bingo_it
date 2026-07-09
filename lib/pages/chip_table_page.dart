@@ -5,6 +5,7 @@ import 'package:bingo_it/models/chip_table.dart';
 import 'package:bingo_it/services/table_storage_service.dart';
 import 'package:bingo_it/state/current_table.dart';
 import 'package:bingo_it/widgets/bingo_chip.dart';
+import 'package:bingo_it/widgets/chip_table.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -288,33 +289,13 @@ class ChipTablePageState extends State<ChipTablePage> {
     );
   }
 
-  List<Widget> chipsTableWidget(bool completed) {
-    if (chipTable?.chips == null) {
-      return List.empty();
-    }
-    List<Widget> widgetList = List.empty(growable: true);
-    for (var element in chipTable!.chips) {
-      widgetList.add(BingoChip(
-        chip: element,
-        onDelete: () {
-          setState(() {});
-        },
-        onDone: () {
-          setState(() {});
-        },
-        enabled: pageStatus == ChipTablePageStatus.playing,
-      ));
-    }
-    return widgetList;
-  }
-
   List<Widget> stackChildren() {
     return [
       Visibility(
         visible: !chipTable!.isCompleted,
-        child: Wrap(
-          spacing: AppConstants.chipSpacing,
-          children: chipsTableWidget(chipTable!.isCompleted),
+        child: ChipTable(
+          chipTable: chipTable,
+          playing: pageStatus == ChipTablePageStatus.playing,
         ),
       ),
       Visibility(
