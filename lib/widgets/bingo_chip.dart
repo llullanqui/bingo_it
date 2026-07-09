@@ -24,57 +24,61 @@ class BingoChip extends StatefulWidget {
 class _BingoChipState extends State<BingoChip> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: widget.enabled
-            ? () {
-                setState(() {
-                  widget.chip.toggle();
+    return Material(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConstants.chipBorderRadius),
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.inversePrimary,
+          width: 2
+        )
+      ),
+      clipBehavior: Clip.antiAlias,
+      color: widget.chip.done
+        ? Colors.green
+        : Theme.of(context).colorScheme.onPrimary,
+      child: InkWell(
+          onTap: widget.enabled
+              ? () {
+                  setState(() { 
+                    widget.chip.toggle();
+                  });
+                  widget.onDone();
+                }
+              : () {},
+          onLongPress: () async {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(AppLocalizations.of(context).deleteItem),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(AppLocalizations.of(context).no)),
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.chip.takeAwayFromTable();
+                            });
+                            widget.onDelete();
+                            Navigator.pop(context);
+                          },
+                          child: Text(AppLocalizations.of(context).yes)),
+                    ],
+                  );
                 });
-                widget.onDone();
-              }
-            : () {},
-        onLongPress: () async {
-          await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(AppLocalizations.of(context).deleteItem),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(AppLocalizations.of(context).no)),
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.chip.takeAwayFromTable();
-                          });
-                          widget.onDelete();
-                          Navigator.pop(context);
-                        },
-                        child: Text(AppLocalizations.of(context).yes)),
-                  ],
-                );
-              });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.onPrimary,
-              width: 2
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: AppConstants.chipVerticalPadding,
+              horizontal: AppConstants.chipHorizontalPadding,
             ),
-            borderRadius: BorderRadius.circular(AppConstants.chipBorderRadius),
-            color: widget.chip.done
-                ? Colors.green
-                : Theme.of(context).colorScheme.onPrimary,
-          ),
-          padding: EdgeInsets.symmetric(
-            vertical: AppConstants.chipVerticalPadding,
-            horizontal: AppConstants.chipHorizontalPadding,
-          ),
-          child: Text(widget.chip.text),
-        ));
+            child: Text(widget.chip.text,
+              textAlign: TextAlign.center,
+            ),
+          )),
+    );
   }
 }

@@ -4,7 +4,6 @@ import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/models/chip_table.dart';
 import 'package:bingo_it/services/table_storage_service.dart';
 import 'package:bingo_it/state/current_table.dart';
-import 'package:bingo_it/widgets/bingo_chip.dart';
 import 'package:bingo_it/widgets/chip_table.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
