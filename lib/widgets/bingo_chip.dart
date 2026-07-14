@@ -45,7 +45,8 @@ class _BingoChipState extends State<BingoChip> {
                   widget.onDone();
                 }
               : () {},
-          onLongPress: () async {
+          onLongPress: widget.enabled
+            ? () async {
             await showDialog(
                 context: context,
                 builder: (context) {
@@ -69,7 +70,8 @@ class _BingoChipState extends State<BingoChip> {
                     ],
                   );
                 });
-          },
+            }
+            : () {},
           child: Container(
             padding: EdgeInsets.symmetric(
               vertical: AppConstants.chipVerticalPadding,

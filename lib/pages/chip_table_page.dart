@@ -3,10 +3,12 @@ import 'package:bingo_it/enums/chip_table_page_status.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/models/chip_table.dart';
 import 'package:bingo_it/services/table_storage_service.dart';
+import 'package:bingo_it/state/current_chip_table_status.dart';
 import 'package:bingo_it/state/current_table.dart';
 import 'package:bingo_it/widgets/chip_table.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_confetti/flutter_confetti.dart';
 
 class ChipTablePage extends StatefulWidget {
   const ChipTablePage({super.key});
@@ -291,36 +293,41 @@ class ChipTablePageState extends State<ChipTablePage> {
   Widget _completedPercentage() {
     return Visibility(
       visible: pageStatus == ChipTablePageStatus.playing,
-      child: Text(
-        chipTable!.completionPercentage,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      child: Consumer<CurrentChipTableStatus>(
+        builder: (context, chipTableStatus, child) {
+          return Text(
+            chipTableStatus.completionPercentage,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          );
+        },
       ),
     );
   }
 
-  List<Widget> stackChildren() {
-    return [
-      Visibility(
-        visible: !chipTable!.isCompleted,
-        child: ChipTable(
-          chipTable: chipTable,
-          playing: pageStatus == ChipTablePageStatus.playing,
-        ),
-      ),
-      Visibility(
-        visible: chipTable!.isCompleted,
-        child: RichText(
-          text: TextSpan(
-            text: AppLocalizations.of(context).youWin,
-            style: TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+  Widget completedMessage() {
+    return Consumer<CurrentChipTableStatus>(
+      builder: (context, chipTableStatus, child) {
+        if (chipTableStatus.isCompleted) {
+          pageStatus = ChipTablePageStatus.completed;
+        }
+        return Visibility(
+          visible: chipTableStatus.isCompleted,
+          child: SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context).youWin,
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    ];
+        );
+      },
+    );
   }
 
   @override
@@ -334,10 +341,17 @@ class ChipTablePageState extends State<ChipTablePage> {
           ],
         ),
         body: Center(
-            child: Stack(
-          alignment: AlignmentGeometry.center,
-          children: stackChildren(),
-        )),
+          child: Stack(
+            alignment: AlignmentGeometry.center,
+            children: [
+              ChipTable(
+                chipTable: chipTable,
+                playing: pageStatus == ChipTablePageStatus.playing,
+              ),
+              completedMessage(),
+            ],
+          )
+        ),
         floatingActionButton: _actions());
   }
 }

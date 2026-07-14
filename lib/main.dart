@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/constants/app_constants.dart';
+import 'package:bingo_it/state/current_chip_table_status.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,8 +15,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,10 @@ class MyApp extends StatelessWidget {
           },
           routes: {
             AppConstants.rootRoute: (context) => HomePage(),
-            AppConstants.chipTableRoute: (context) => ChipTablePage(),
+            AppConstants.chipTableRoute: (context) => ChangeNotifierProvider(
+              create: (context) => CurrentChipTableStatus(Provider.of<CurrentTable>(context, listen: false).currentTable),
+              child: ChipTablePage()
+            ),
             AppConstants.savedTablesRoute: (context) => TableDraftsPage(),
           },
         ));
