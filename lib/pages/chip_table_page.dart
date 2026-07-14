@@ -288,6 +288,16 @@ class ChipTablePageState extends State<ChipTablePage> {
     );
   }
 
+  Widget _completedPercentage() {
+    return Visibility(
+      visible: pageStatus == ChipTablePageStatus.playing,
+      child: Text(
+        chipTable!.completionPercentage,
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   List<Widget> stackChildren() {
     return [
       Visibility(
@@ -319,6 +329,9 @@ class ChipTablePageState extends State<ChipTablePage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(AppLocalizations.of(context).appTitle),
+          actions: [
+            _completedPercentage(),
+          ],
         ),
         body: Center(
             child: Stack(

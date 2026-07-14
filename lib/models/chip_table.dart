@@ -95,4 +95,9 @@ class ChipTableModel {
     _doneChips = 0;
     _completed = false;
   }
+
+  String get completionPercentage {
+    if (_totalChips == 0) return "0%";
+    return "${(_doneChips / _totalChips).toStringAsFixed(2)}%";
+  }
 }
