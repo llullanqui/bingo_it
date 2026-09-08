@@ -99,4 +99,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get increment => 'Incremento';
+
+  @override
+  String get pleaseEnterText => 'Por favor ingresa algún texto';
 }

@@ -55,5 +55,6 @@
             }
         }
     },
-    "increment": "Increment"
+    "increment": "Increment",
+    "pleaseEnterText": "Please enter some text"
 }

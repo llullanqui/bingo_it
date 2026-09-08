@@ -265,6 +265,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get increment;
+
+  /// No description provided for @pleaseEnterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter some text'**
+  String get pleaseEnterText;
 }
 
 class _AppLocalizationsDelegate

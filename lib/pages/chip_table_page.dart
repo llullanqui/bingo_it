@@ -23,6 +23,7 @@ class ChipTablePageState extends State<ChipTablePage> {
   ChipTablePageStatus pageStatus = ChipTablePageStatus.setup;
   late TextEditingController _textController;
   ConfettiController? _confettiController;
+  final _formKey = GlobalKey<FormState>();
 
   /// call the kill method to kill the confetti
   /// controller.kill();
@@ -151,11 +152,25 @@ class ChipTablePageState extends State<ChipTablePage> {
             builder: (context) {
               return AlertDialog(
                 title: Text(AppLocalizations.of(context).add),
-                content: TextField(
-                  controller: _textController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context).addItemHint),
+                content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _textController,
+                        autofocus: true,
+                        decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context).addItemHint),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context).pleaseEnterText;
+                          }
+                          return null;
+                        },  
+                      ),
+                    ],
+                  ),
                 ),
                 actions: [
                   TextButton(
@@ -166,8 +181,10 @@ class ChipTablePageState extends State<ChipTablePage> {
                       child: Text(AppLocalizations.of(context).cancel)),
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context, _textController.text);
-                        _textController.clear();
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.pop(context, _textController.text);
+                          _textController.clear();
+                        }
                       },
                       child: Text(AppLocalizations.of(context).add)),
                 ],
@@ -366,16 +383,16 @@ class ChipTablePageState extends State<ChipTablePage> {
           ],
         ),
         body: Center(
-            child: Stack(
-          alignment: AlignmentGeometry.center,
-          children: [
-            ChipTable(
-              chipTable: chipTable,
-              playing: pageStatus == ChipTablePageStatus.playing,
-            ),
-            completedMessage(),
-          ],
-        )),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              ChipTable(
+                chipTable: chipTable,
+                playing: pageStatus == ChipTablePageStatus.playing,
+              ),
+              completedMessage(),
+            ],
+          )),
         floatingActionButton: _actions());
   }
 }

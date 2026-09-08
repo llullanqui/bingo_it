@@ -10,12 +10,14 @@ class BingoChip extends StatefulWidget {
     required this.onDelete,
     required this.onDone,
     required this.enabled,
+    required this.playing,
   });
 
   final ChipModel chip;
   final Function onDelete;
   final Function onDone;
   final bool enabled;
+  final bool playing;
 
   @override
   State<BingoChip> createState() => _BingoChipState();
@@ -39,22 +41,20 @@ class _BingoChipState extends State<BingoChip> {
       child: InkWell(
           onTap: widget.enabled
               ? () {
-                print("Chip tapped: ${widget.chip.text}, Done: ${widget.chip.done}");
                   setState(() { 
                     widget.chip.toggle();
                   });
                   widget.onDone();
                 }
               : () {
-                print("B tapped: ${widget.chip.text}, Done: ${widget.chip.done}");
               },
-          onLongPress: widget.enabled
+          onLongPress: !widget.playing
             ? () async {
-            await showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(AppLocalizations.of(context).deleteItem),
+              await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(AppLocalizations.of(context).deleteItem),
                     actions: [
                       TextButton(
                           onPressed: () {
@@ -73,8 +73,7 @@ class _BingoChipState extends State<BingoChip> {
                     ],
                   );
                 });
-            }
-            : () {},
+            }: (){},
           child: Container(
             padding: EdgeInsets.symmetric(
               vertical: AppConstants.chipVerticalPadding,

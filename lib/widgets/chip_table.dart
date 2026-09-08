@@ -21,13 +21,6 @@ class ChipTable extends StatefulWidget {
 }
 
 class _ChipTableState extends State<ChipTable> {
-  bool isCompleted = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isCompleted = widget.chipTable?.isCompleted ?? false;
-  }
 
   List<Widget> chipsTableWidget(bool completed) {
     if (widget.chipTable?.chips == null) {
@@ -40,18 +33,16 @@ class _ChipTableState extends State<ChipTable> {
         child: BingoChip(
           chip: element,
           enabled: widget.playing && !completed,
+          playing: widget.playing,
           onDelete: () {
             setState(() {});
           },
           onDone: () {
-            setState(() {
-              isCompleted = widget.chipTable!.isCompleted;
-            });
             Provider.of<CurrentChipTableStatus>(context, listen: false)
                     .setCompletionPercentage =
                 widget.chipTable!.completionPercentage;
             Provider.of<CurrentChipTableStatus>(context, listen: false)
-                .setIsCompleted = isCompleted;
+                .setIsCompleted = widget.chipTable!.isCompleted;
           },
         ),
       ));
