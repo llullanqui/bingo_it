@@ -22,11 +22,16 @@ class ChipTablePageState extends State<ChipTablePage> {
   String textboxValue = "";
   ChipTablePageStatus pageStatus = ChipTablePageStatus.setup;
   late TextEditingController _textController;
+  ConfettiController? _confettiController;
+
+  /// call the kill method to kill the confetti
+  /// controller.kill();
 
   @override
   void initState() {
     super.initState();
     _textController = TextEditingController();
+    _confettiController = ConfettiController();
   }
 
   @override
@@ -38,6 +43,7 @@ class ChipTablePageState extends State<ChipTablePage> {
   @override
   void dispose() {
     _textController.dispose();
+    _confettiController?.kill();
     super.dispose();
   }
 
@@ -72,6 +78,8 @@ class ChipTablePageState extends State<ChipTablePage> {
     setState(() {
       chipTable!.restartTable();
     });
+    pageStatus = ChipTablePageStatus.setup;
+    _confettiController?.kill();
   }
 
   void _notReadyYetAlert() {
@@ -100,24 +108,24 @@ class ChipTablePageState extends State<ChipTablePage> {
           _notReadyYetAlert();
         } else {
           final result = await showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context).readyToStart),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      child: Text(AppLocalizations.of(context).no)),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: Text(AppLocalizations.of(context).letsGo)),
-                ],
-              );
-            });
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(AppLocalizations.of(context).readyToStart),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: Text(AppLocalizations.of(context).no)),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: Text(AppLocalizations.of(context).letsGo)),
+                  ],
+                );
+              });
           if (result && !_minimumAmountFilled()) {
             _notReadyYetAlert();
           } else if (result && _minimumAmountFilled()) {
@@ -216,33 +224,33 @@ class ChipTablePageState extends State<ChipTablePage> {
           _notReadyYetAlert();
         } else {
           final result = await showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context).saveTable),
-                content: TextField(
-                  controller: _textController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context).saveTableHint),
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _textController.clear();
-                      },
-                      child: Text(AppLocalizations.of(context).cancel)),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, _textController.text);
-                        chipTable!.name = _textController.text;
-                        _textController.clear();
-                      },
-                      child: Text(AppLocalizations.of(context).save)),
-                ],
-              );
-            });
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(AppLocalizations.of(context).saveTable),
+                  content: TextField(
+                    controller: _textController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context).saveTableHint),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _textController.clear();
+                        },
+                        child: Text(AppLocalizations.of(context).cancel)),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, _textController.text);
+                          chipTable!.name = _textController.text;
+                          _textController.clear();
+                        },
+                        child: Text(AppLocalizations.of(context).save)),
+                  ],
+                );
+              });
           if (result != null) {
             result as String;
             _saveTable();
@@ -309,6 +317,7 @@ class ChipTablePageState extends State<ChipTablePage> {
       builder: (context, chipTableStatus, child) {
         if (chipTableStatus.isCompleted) {
           pageStatus = ChipTablePageStatus.completed;
+          // _confettiController?.launch();
         }
         return Visibility(
           visible: chipTableStatus.isCompleted,
@@ -316,11 +325,25 @@ class ChipTablePageState extends State<ChipTablePage> {
             height: double.infinity,
             width: double.infinity,
             child: Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               child: Center(
-                child: Text(
-                  AppLocalizations.of(context).youWin,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Confetti(
+                      controller: _confettiController!,
+                      options: const ConfettiOptions(
+                        particleCount: 100,
+                        spread: 70, 
+                        y: 0.6,
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context).youWin,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -341,17 +364,16 @@ class ChipTablePageState extends State<ChipTablePage> {
           ],
         ),
         body: Center(
-          child: Stack(
-            alignment: AlignmentGeometry.center,
-            children: [
-              ChipTable(
-                chipTable: chipTable,
-                playing: pageStatus == ChipTablePageStatus.playing,
-              ),
-              completedMessage(),
-            ],
-          )
-        ),
+            child: Stack(
+          alignment: AlignmentGeometry.center,
+          children: [
+            ChipTable(
+              chipTable: chipTable,
+              playing: pageStatus == ChipTablePageStatus.playing,
+            ),
+            completedMessage(),
+          ],
+        )),
         floatingActionButton: _actions());
   }
 }
