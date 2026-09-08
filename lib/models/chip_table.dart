@@ -56,6 +56,7 @@ class ChipTableModel {
 
   void _updateCompleted() {
     _completed = _totalChips > 0 && _totalChips - _doneChips == 0;
+    print("completed: $_completed, totalChips: $_totalChips, doneChips: $_doneChips");
   }
 
   void addCompletedChip() {
@@ -87,6 +88,7 @@ class ChipTableModel {
     }
     _doneChips = 0;
     _updateCompleted();
+    print("Table restarted. Total chips: $_totalChips, Done chips: $_doneChips, Completed: $_completed");
   }
 
   void emptyTable() {

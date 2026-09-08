@@ -78,8 +78,9 @@ class ChipTablePageState extends State<ChipTablePage> {
     setState(() {
       chipTable!.restartTable();
     });
-    pageStatus = ChipTablePageStatus.setup;
+    Provider.of<CurrentChipTableStatus>(context, listen: false).updateStatus(chipTable!);
     _confettiController?.kill();
+    pageStatus = ChipTablePageStatus.setup;
   }
 
   void _notReadyYetAlert() {
@@ -131,6 +132,7 @@ class ChipTablePageState extends State<ChipTablePage> {
           } else if (result && _minimumAmountFilled()) {
             setState(() {
               pageStatus = ChipTablePageStatus.playing;
+              chipTable!.restartTable();
             });
           }
         }
@@ -317,7 +319,7 @@ class ChipTablePageState extends State<ChipTablePage> {
       builder: (context, chipTableStatus, child) {
         if (chipTableStatus.isCompleted) {
           pageStatus = ChipTablePageStatus.completed;
-          // _confettiController?.launch();
+          _confettiController?.launch();
         }
         return Visibility(
           visible: chipTableStatus.isCompleted,
@@ -334,7 +336,7 @@ class ChipTablePageState extends State<ChipTablePage> {
                       controller: _confettiController!,
                       options: const ConfettiOptions(
                         particleCount: 100,
-                        spread: 70, 
+                        spread: 70,
                         y: 0.6,
                       ),
                     ),

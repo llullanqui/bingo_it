@@ -16,8 +16,13 @@ class CurrentChipTableStatus with ChangeNotifier {
   }
 
   set setIsCompleted(bool completed) {
-    print("Setting isCompleted to $completed");
     isCompleted = completed;
+    notifyListeners();
+  }
+
+  void updateStatus(ChipTableModel table) {
+    completionPercentage = table.completionPercentage;
+    isCompleted = table.isCompleted;
     notifyListeners();
   }
 }

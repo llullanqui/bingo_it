@@ -39,12 +39,15 @@ class _BingoChipState extends State<BingoChip> {
       child: InkWell(
           onTap: widget.enabled
               ? () {
+                print("Chip tapped: ${widget.chip.text}, Done: ${widget.chip.done}");
                   setState(() { 
                     widget.chip.toggle();
                   });
                   widget.onDone();
                 }
-              : () {},
+              : () {
+                print("B tapped: ${widget.chip.text}, Done: ${widget.chip.done}");
+              },
           onLongPress: widget.enabled
             ? () async {
             await showDialog(

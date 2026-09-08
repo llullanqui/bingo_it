@@ -10,7 +10,11 @@ class ChipTable extends StatefulWidget {
   final bool playing;
   final Function? onCompletionChanged;
 
-  const ChipTable({super.key, this.chipTable, this.onCompletionChanged, this.playing = true});
+  const ChipTable(
+      {super.key,
+      this.chipTable,
+      this.onCompletionChanged,
+      this.playing = true});
 
   @override
   State<ChipTable> createState() => _ChipTableState();
@@ -43,8 +47,11 @@ class _ChipTableState extends State<ChipTable> {
             setState(() {
               isCompleted = widget.chipTable!.isCompleted;
             });
-            Provider.of<CurrentChipTableStatus>(context, listen: false).setCompletionPercentage = widget.chipTable!.completionPercentage;
-            Provider.of<CurrentChipTableStatus>(context, listen: false).setIsCompleted = isCompleted;
+            Provider.of<CurrentChipTableStatus>(context, listen: false)
+                    .setCompletionPercentage =
+                widget.chipTable!.completionPercentage;
+            Provider.of<CurrentChipTableStatus>(context, listen: false)
+                .setIsCompleted = isCompleted;
           },
         ),
       ));
@@ -65,7 +72,7 @@ class _ChipTableState extends State<ChipTable> {
                   spacing: AppConstants.chipSpacing,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: chipsTableWidget(isCompleted))));
+                  children: chipsTableWidget(widget.chipTable?.isCompleted ?? false))));
     });
   }
 }
