@@ -16,6 +16,7 @@ void main() {
           onDelete: () {},
           onDone: () {},
           enabled: true,
+          playing: true,
         ),
       ),
     ));
@@ -37,6 +38,7 @@ void main() {
             onDoneCalled = true;
           },
           enabled: true,
+          playing: true,
         ),
       ),
     ));
@@ -62,6 +64,7 @@ void main() {
           },
           onDone: () {},
           enabled: true,
+          playing: true,
         ),
       ),
     ));

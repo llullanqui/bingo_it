@@ -210,10 +210,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_confetti
-      sha256: "248cf35f6428e30edafee71bf4029616bf5d0042f627247b04dbeabbe6edd2c3"
+      sha256: "6fd566dc7e99456814b8e5a820328ae5ba06f9ca41a85001a1c4baaa9e3e5773"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.9.2"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

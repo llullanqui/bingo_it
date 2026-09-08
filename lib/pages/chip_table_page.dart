@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bingo_it/constants/app_constants.dart';
 import 'package:bingo_it/enums/chip_table_page_status.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
@@ -76,11 +78,12 @@ class ChipTablePageState extends State<ChipTablePage> {
   }
 
   void restartTable() {
+    _confettiController?.kill();
     setState(() {
       chipTable!.restartTable();
     });
-    Provider.of<CurrentChipTableStatus>(context, listen: false).updateStatus(chipTable!);
-    _confettiController?.kill();
+    Provider.of<CurrentChipTableStatus>(context, listen: false)
+        .updateStatus(chipTable!);
     pageStatus = ChipTablePageStatus.setup;
   }
 
@@ -167,7 +170,7 @@ class ChipTablePageState extends State<ChipTablePage> {
                             return AppLocalizations.of(context).pleaseEnterText;
                           }
                           return null;
-                        },  
+                        },
                       ),
                     ],
                   ),
@@ -336,7 +339,6 @@ class ChipTablePageState extends State<ChipTablePage> {
       builder: (context, chipTableStatus, child) {
         if (chipTableStatus.isCompleted) {
           pageStatus = ChipTablePageStatus.completed;
-          _confettiController?.launch();
         }
         return Visibility(
           visible: chipTableStatus.isCompleted,
@@ -350,11 +352,17 @@ class ChipTablePageState extends State<ChipTablePage> {
                   alignment: Alignment.center,
                   children: [
                     Confetti(
+                      instant: true,
                       controller: _confettiController!,
+                      onFinished: () {
+                        Timer(const Duration(seconds: 1), () {
+                          _confettiController?.launch();
+                        });
+                      },
                       options: const ConfettiOptions(
                         particleCount: 100,
                         spread: 70,
-                        y: 0.6,
+                        y: 0.6
                       ),
                     ),
                     Text(
@@ -383,16 +391,16 @@ class ChipTablePageState extends State<ChipTablePage> {
           ],
         ),
         body: Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ChipTable(
-                chipTable: chipTable,
-                playing: pageStatus == ChipTablePageStatus.playing,
-              ),
-              completedMessage(),
-            ],
-          )),
+            child: Stack(
+          alignment: Alignment.center,
+          children: [
+            ChipTable(
+              chipTable: chipTable,
+              playing: pageStatus == ChipTablePageStatus.playing,
+            ),
+            completedMessage(),
+          ],
+        )),
         floatingActionButton: _actions());
   }
 }
