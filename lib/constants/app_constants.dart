@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 class AppConstants {
   static const int minimumChips = 5;
   static const String savedTablesKey = 'saved_tables';
@@ -17,13 +14,6 @@ class AppConstants {
   static const String addButtonHeroTag = 'add_button_hero';
   static const String restartButtonHeroTag = 'restart_button_hero';
   static const String saveButtonHeroTag = 'save_button_hero';
-
-  static ThemeData mainTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    useMaterial3: true,
-    fontFamily: GoogleFonts.roboto().fontFamily,
-    textTheme: GoogleFonts.robotoTextTheme()
-  );
 
   AppConstants._();
 }

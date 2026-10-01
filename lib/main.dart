@@ -4,6 +4,7 @@ import 'package:bingo_it/pages/table_drafts_page.dart';
 import 'package:bingo_it/state/current_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/constants/app_constants.dart';
@@ -18,12 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    
     return ChangeNotifierProvider(
         create: (context) => CurrentTable(),
         child: MaterialApp(
           title: 'Bingo It!',
           debugShowCheckedModeBanner: false,
-          theme: AppConstants.mainTheme,
+          theme: _buildTheme(theme),
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -52,4 +55,15 @@ class MyApp extends StatelessWidget {
           },
         ));
   }
+}
+
+ThemeData _buildTheme(ThemeData baseTheme) {
+  return ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    useMaterial3: true,
+    fontFamily: GoogleFonts.roboto().fontFamily,
+    textTheme: baseTheme.copyWith(
+      textTheme: GoogleFonts.robotoTextTheme(baseTheme.textTheme),
+    ).textTheme,
+  );
 }
