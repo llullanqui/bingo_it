@@ -3,11 +3,12 @@
     "appTitle": "¡Bingo!",
     "newTable": "Nueva Tabla",
     "savedTables": "Tablas Guardadas",
-    "addItemHint": "Escribe el elemento que crees que sucederá",
+    "addChipHint": "Escribe el chip que crees que sucederá",
+    "noChipsYet": "Aún no hay chips",
     "readyToStart": "¿Listo para comenzar?",
     "sureToRestart": "¿Seguro que quieres reiniciar?",
-    "addAtLeastItems": "Agrega al menos {count} elementos",
-    "@addAtLeastItems": {
+    "addAtLeastChip": "Agrega al menos {count} chips",
+    "@addAtLeastChip": {
         "placeholders": {
             "count": {
                 "type": "int"
@@ -38,9 +39,9 @@
     "tableSaved": "¡Tabla guardada exitosamente!",
     "noSavedTablesYet": "Aún no hay tablas guardadas",
     "youWin": "¡GANASTE!",
-    "deleteItem": "¿Seguro que quieres eliminar el elemento?",
-    "itemCount": "{count} elementos",
-    "@itemCount": {
+    "deleteChip": "¿Seguro que quieres eliminar el chip?",
+    "chipCount": "{count} chips",
+    "@chipCount": {
         "placeholders": {
             "count": {
                 "type": "int"

@@ -18,7 +18,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedTables => 'Saved Tables';
 
   @override
-  String get addItemHint => 'Write the item you think will happen';
+  String get addChipHint => 'Write the chip you think will happen';
+
+  @override
+  String get noChipsYet => 'No chips yet';
 
   @override
   String get readyToStart => 'Ready to start?';
@@ -27,8 +30,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sureToRestart => 'Sure you want to restart?';
 
   @override
-  String addAtLeastItems(int count) {
-    return 'Add at least $count items';
+  String addAtLeastChip(int count) {
+    return 'Add at least $count chips';
   }
 
   @override
@@ -85,11 +88,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get youWin => 'YOU WIN!';
 
   @override
-  String get deleteItem => 'Sure you want to delete the item?';
+  String get deleteChip => 'Sure you want to delete the chip?';
 
   @override
-  String itemCount(int count) {
-    return '$count items';
+  String chipCount(int count) {
+    return '$count chips';
   }
 
   @override

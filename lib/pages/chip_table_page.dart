@@ -93,7 +93,7 @@ class ChipTablePageState extends State<ChipTablePage> {
         builder: (context) {
           return AlertDialog(
             title: Text(AppLocalizations.of(context)
-                .addAtLeastItems(AppConstants.minimumChips)),
+                .addAtLeastChip(AppConstants.minimumChips)),
             actions: [
               TextButton(
                   onPressed: () {
@@ -164,7 +164,7 @@ class ChipTablePageState extends State<ChipTablePage> {
                         controller: _textController,
                         autofocus: true,
                         decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context).addItemHint),
+                            hintText: AppLocalizations.of(context).addChipHint),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return AppLocalizations.of(context).pleaseEnterText;
@@ -360,10 +360,7 @@ class ChipTablePageState extends State<ChipTablePage> {
                         });
                       },
                       options: const ConfettiOptions(
-                        particleCount: 100,
-                        spread: 70,
-                        y: 0.6
-                      ),
+                          particleCount: 100, spread: 70, y: 0.6),
                     ),
                     Text(
                       AppLocalizations.of(context).youWin,

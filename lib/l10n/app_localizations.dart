@@ -116,11 +116,17 @@ abstract class AppLocalizations {
   /// **'Saved Tables'**
   String get savedTables;
 
-  /// No description provided for @addItemHint.
+  /// No description provided for @addChipHint.
   ///
   /// In en, this message translates to:
-  /// **'Write the item you think will happen'**
-  String get addItemHint;
+  /// **'Write the chip you think will happen'**
+  String get addChipHint;
+
+  /// No description provided for @noChipsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No chips yet'**
+  String get noChipsYet;
 
   /// No description provided for @readyToStart.
   ///
@@ -134,11 +140,11 @@ abstract class AppLocalizations {
   /// **'Sure you want to restart?'**
   String get sureToRestart;
 
-  /// No description provided for @addAtLeastItems.
+  /// No description provided for @addAtLeastChip.
   ///
   /// In en, this message translates to:
-  /// **'Add at least {count} items'**
-  String addAtLeastItems(int count);
+  /// **'Add at least {count} chips'**
+  String addAtLeastChip(int count);
 
   /// No description provided for @tableDraftsSubtitle.
   ///
@@ -242,17 +248,17 @@ abstract class AppLocalizations {
   /// **'YOU WIN!'**
   String get youWin;
 
-  /// No description provided for @deleteItem.
+  /// No description provided for @deleteChip.
   ///
   /// In en, this message translates to:
-  /// **'Sure you want to delete the item?'**
-  String get deleteItem;
+  /// **'Sure you want to delete the chip?'**
+  String get deleteChip;
 
-  /// No description provided for @itemCount.
+  /// No description provided for @chipCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} items'**
-  String itemCount(int count);
+  /// **'{count} chips'**
+  String chipCount(int count);
 
   /// No description provided for @completedCount.
   ///

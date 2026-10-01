@@ -3,11 +3,12 @@
     "appTitle": "Bingo it!",
     "newTable": "New Table",
     "savedTables": "Saved Tables",
-    "addItemHint": "Write the item you think will happen",
+    "addChipHint": "Write the chip you think will happen",
+    "noChipsYet": "No chips yet",
     "readyToStart": "Ready to start?",
     "sureToRestart": "Sure you want to restart?",
-    "addAtLeastItems": "Add at least {count} items",
-    "@addAtLeastItems": {
+    "addAtLeastChip": "Add at least {count} chips",
+    "@addAtLeastChip": {
         "placeholders": {
             "count": {
                 "type": "int"
@@ -38,9 +39,9 @@
     "tableSaved": "Table saved successfully!",
     "noSavedTablesYet": "No saved tables yet",
     "youWin": "YOU WIN!",
-    "deleteItem": "Sure you want to delete the item?",
-    "itemCount": "{count} items",
-    "@itemCount": {
+    "deleteChip": "Sure you want to delete the chip?",
+    "chipCount": "{count} chips",
+    "@chipCount": {
         "placeholders": {
             "count": {
                 "type": "int"

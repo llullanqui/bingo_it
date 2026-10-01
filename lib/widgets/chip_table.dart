@@ -1,4 +1,5 @@
 import 'package:bingo_it/constants/app_constants.dart';
+import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/state/current_chip_table_status.dart';
 import 'package:flutter/material.dart';
 import 'package:bingo_it/models/chip_table.dart';
@@ -21,12 +22,19 @@ class ChipTable extends StatefulWidget {
 }
 
 class _ChipTableState extends State<ChipTable> {
-
   List<Widget> chipsTableWidget(bool completed) {
-    if (widget.chipTable?.chips == null) {
-      return List.empty();
-    }
     List<Widget> widgetList = List.empty(growable: true);
+    if (widget.chipTable?.chips == null || widget.chipTable!.chips.isEmpty) {
+      widgetList.add(Container(
+        margin: const EdgeInsets.all(AppConstants.chipSpacing),
+        child: Text(
+          AppLocalizations.of(context).noChipsYet,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ));
+      return widgetList;
+    }
     for (var element in widget.chipTable!.chips) {
       widgetList.add(Container(
         margin: const EdgeInsets.all(AppConstants.chipSpacing),
@@ -63,7 +71,8 @@ class _ChipTableState extends State<ChipTable> {
                   spacing: AppConstants.chipSpacing,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: chipsTableWidget(widget.chipTable?.isCompleted ?? false))));
+                  children: chipsTableWidget(
+                      widget.chipTable?.isCompleted ?? false))));
     });
   }
 }
