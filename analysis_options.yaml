@@ -28,5 +28,9 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 
 analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - web/**
   plugins:
     - custom_lint

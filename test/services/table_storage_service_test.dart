@@ -57,5 +57,22 @@ void main() {
       expect(tables.first.name, 'Updated');
       expect(tables.first.chips.first.text, "4");
     });
+
+    test('deleteTable and updateTable ignore out-of-range indices', () async {
+      final original = ChipTableModel.name('Original')..addChip('Item');
+      await TableStorageService.saveTable(original);
+
+      await TableStorageService.deleteTable(-1);
+      await TableStorageService.deleteTable(1);
+      await TableStorageService.updateTable(
+          -1, ChipTableModel.name('Negative'));
+      await TableStorageService.updateTable(
+          1, ChipTableModel.name('Too large'));
+
+      final tables = await TableStorageService.loadSavedTables();
+      expect(tables, hasLength(1));
+      expect(tables.single.name, 'Original');
+      expect(tables.single.chips.single.text, 'Item');
+    });
   });
 }

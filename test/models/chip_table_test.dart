@@ -99,5 +99,39 @@ void main() {
         expect(restored.chips[i].done, table.chips[i].done);
       }
     });
+
+    test('completion percentage handles empty, partial, and complete tables',
+        () {
+      final table = ChipTableModel.empty();
+      expect(table.completionPercentage, '0%');
+
+      table.addChip('A');
+      table.addChip('B');
+      table.addChip('C');
+      expect(table.completionPercentage, '0.00%');
+
+      table.chips.first.toggle();
+      expect(table.completionPercentage, '33.33%');
+
+      table.restartTable();
+      expect(table.completionPercentage, '0.00%');
+      table.chips[0].toggle();
+      table.chips[1].toggle();
+      table.chips[2].toggle();
+      expect(table.completionPercentage, '100.00%');
+    });
+
+    test('removing the last completed chip clears completed state', () {
+      final table = ChipTableModel.empty()..addChip('A');
+      final chip = table.chips.single;
+      chip.toggle();
+
+      table.removeChip(chip);
+
+      expect(table.chips, isEmpty);
+      expect(table.chipsAmount, 0);
+      expect(table.completedChips, 0);
+      expect(table.isCompleted, isFalse);
+    });
   });
 }

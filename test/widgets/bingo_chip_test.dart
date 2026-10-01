@@ -1,3 +1,4 @@
+import 'package:bingo_it/l10n/app_localizations.dart';
 import 'package:bingo_it/models/chip.dart';
 import 'package:bingo_it/models/chip_table.dart';
 import 'package:bingo_it/widgets/bingo_chip.dart';
@@ -8,15 +9,17 @@ void main() {
   testWidgets('BingoChip - renders correctly', (WidgetTester tester) async {
     final chipTable = ChipTableModel.empty();
     final chip = ChipModel('Test', chipTable);
-    
+
     await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: BingoChip(
           chip: chip,
           onDelete: () {},
           onDone: () {},
           enabled: true,
-          playing: true,
+          playing: false,
         ),
       ),
     ));
@@ -24,12 +27,15 @@ void main() {
     expect(find.text('Test'), findsOneWidget);
   });
 
-  testWidgets('BingoChip - toggles on tap when enabled', (WidgetTester tester) async {
+  testWidgets('BingoChip - toggles on tap when enabled',
+      (WidgetTester tester) async {
     final chipTable = ChipTableModel.empty();
     final chip = ChipModel('Test', chipTable);
     bool onDoneCalled = false;
 
     await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: BingoChip(
           chip: chip,
@@ -38,7 +44,7 @@ void main() {
             onDoneCalled = true;
           },
           enabled: true,
-          playing: true,
+          playing: false,
         ),
       ),
     ));
@@ -50,12 +56,15 @@ void main() {
     expect(onDoneCalled, true);
   });
 
-  testWidgets('BingoChip - shows delete dialog on long press', (WidgetTester tester) async {
+  testWidgets('BingoChip - shows delete dialog on long press',
+      (WidgetTester tester) async {
     final chipTable = ChipTableModel.empty();
     final chip = ChipModel('Test', chipTable);
     bool onDeleteCalled = false;
 
     await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: BingoChip(
           chip: chip,
@@ -64,7 +73,7 @@ void main() {
           },
           onDone: () {},
           enabled: true,
-          playing: true,
+          playing: false,
         ),
       ),
     ));
