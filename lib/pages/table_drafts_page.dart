@@ -1,10 +1,10 @@
-import 'package:bingo_it/constants/app_constants.dart';
-import 'package:bingo_it/l10n/app_localizations.dart';
+import 'package:bingo_it_all/constants/app_constants.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/state/current_table.dart';
-import 'package:bingo_it/services/table_storage_service.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/state/current_table.dart';
+import 'package:bingo_it_all/services/table_storage_service.dart';
 
 class TableDraftsPage extends StatefulWidget {
   const TableDraftsPage({super.key});
@@ -48,7 +48,8 @@ class _TableDraftsPageState extends State<TableDraftsPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : savedTables.isEmpty
-              ? Center(child: Text(AppLocalizations.of(context).noSavedTablesYet))
+              ? Center(
+                  child: Text(AppLocalizations.of(context).noSavedTablesYet))
               : ListView.builder(
                   itemCount: savedTables.length,
                   itemBuilder: (context, index) {
@@ -64,12 +65,15 @@ class _TableDraftsPageState extends State<TableDraftsPage> {
                       direction: DismissDirection.endToStart,
                       onDismissed: (direction) => _deleteTable(index),
                       child: ListTile(
-                        title: Text('${AppLocalizations.of(context).table} #${index + 1}: ${table.name}'),
-                        subtitle: Text(AppLocalizations.of(context).tableDraftsSubtitle(table.chips.length)),
+                        title: Text(
+                            '${AppLocalizations.of(context).table} #${index + 1}: ${table.name}'),
+                        subtitle: Text(AppLocalizations.of(context)
+                            .tableDraftsSubtitle(table.chips.length)),
                         onTap: () {
                           Provider.of<CurrentTable>(context, listen: false)
                               .currentTable = table;
-                          Navigator.popAndPushNamed(context, AppConstants.chipTableRoute);
+                          Navigator.popAndPushNamed(
+                              context, AppConstants.chipTableRoute);
                         },
                       ),
                     );

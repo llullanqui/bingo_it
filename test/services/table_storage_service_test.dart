@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bingo_it/services/table_storage_service.dart';
-import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it_all/services/table_storage_service.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

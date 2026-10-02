@@ -1,9 +1,9 @@
-import 'package:bingo_it/constants/app_constants.dart';
-import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:bingo_it/state/current_chip_table_status.dart';
+import 'package:bingo_it_all/constants/app_constants.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/state/current_chip_table_status.dart';
 import 'package:flutter/material.dart';
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/widgets/bingo_chip.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/widgets/bingo_chip.dart';
 import 'package:provider/provider.dart';
 
 class ChipTable extends StatefulWidget {

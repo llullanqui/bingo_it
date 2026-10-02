@@ -1,7 +1,7 @@
-import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:bingo_it/models/chip.dart';
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/widgets/bingo_chip.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/models/chip.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/widgets/bingo_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

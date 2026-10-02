@@ -1,8 +1,7 @@
-import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:flutter/widgets.dart';
 
 class CurrentTable extends ChangeNotifier {
-
   ChipTableModel _currentTable = ChipTableModel.empty();
   ChipTableModel get currentTable => _currentTable;
 
@@ -10,5 +9,4 @@ class CurrentTable extends ChangeNotifier {
     _currentTable = table;
     notifyListeners();
   }
-
 }

@@ -1,4 +1,4 @@
-import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:flutter/widgets.dart';
 
 class CurrentChipTableStatus with ChangeNotifier {

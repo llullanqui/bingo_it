@@ -1,5 +1,5 @@
-import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:bingo_it/pages/home_page.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,7 +21,8 @@ void main() {
 
     // Test navigation buttons
     final newTableButton = find.widgetWithText(ElevatedButton, 'New Table');
-    final savedTablesButton = find.widgetWithText(ElevatedButton, 'Saved Tables');
+    final savedTablesButton =
+        find.widgetWithText(ElevatedButton, 'Saved Tables');
 
     expect(newTableButton, findsOneWidget);
     expect(savedTablesButton, findsOneWidget);

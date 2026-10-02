@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bingo_it/models/chip.dart';
-import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it_all/models/chip.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
 
 class FakeChipTable implements ChipTableModel {
   int addCompletedCount = 0;

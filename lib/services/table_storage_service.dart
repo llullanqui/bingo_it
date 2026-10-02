@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:bingo_it/constants/app_constants.dart';
+import 'package:bingo_it_all/constants/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bingo_it/models/chip_table.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
 
 class TableStorageService {
-
   /// Loads all saved tables from SharedPreferences
   static Future<List<ChipTableModel>> loadSavedTables() async {
     final prefs = await SharedPreferences.getInstance();

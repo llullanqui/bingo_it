@@ -1,6 +1,6 @@
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/state/current_chip_table_status.dart';
-import 'package:bingo_it/state/current_table.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/state/current_chip_table_status.dart';
+import 'package:bingo_it_all/state/current_table.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,9 +1,9 @@
-import 'package:bingo_it/constants/app_constants.dart';
-import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/pages/table_drafts_page.dart';
-import 'package:bingo_it/services/table_storage_service.dart';
-import 'package:bingo_it/state/current_table.dart';
+import 'package:bingo_it_all/constants/app_constants.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/pages/table_drafts_page.dart';
+import 'package:bingo_it_all/services/table_storage_service.dart';
+import 'package:bingo_it_all/state/current_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

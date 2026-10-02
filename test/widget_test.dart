@@ -7,7 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:bingo_it/main.dart';
+import 'package:bingo_it_all/main.dart';
 
 void main() {
   testWidgets('app shows its title and home actions',

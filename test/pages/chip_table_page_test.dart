@@ -1,10 +1,10 @@
-import 'package:bingo_it/enums/chip_table_page_status.dart';
-import 'package:bingo_it/l10n/app_localizations.dart';
-import 'package:bingo_it/models/chip.dart';
-import 'package:bingo_it/models/chip_table.dart';
-import 'package:bingo_it/pages/chip_table_page.dart';
-import 'package:bingo_it/state/current_chip_table_status.dart';
-import 'package:bingo_it/state/current_table.dart';
+import 'package:bingo_it_all/enums/chip_table_page_status.dart';
+import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/models/chip.dart';
+import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/pages/chip_table_page.dart';
+import 'package:bingo_it_all/state/current_chip_table_status.dart';
+import 'package:bingo_it_all/state/current_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

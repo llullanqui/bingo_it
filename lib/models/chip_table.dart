@@ -1,4 +1,4 @@
-import 'package:bingo_it/models/chip.dart';
+import 'package:bingo_it_all/models/chip.dart';
 
 class ChipTableModel {
   List<ChipModel> _chips = List.empty(growable: true);
@@ -11,7 +11,8 @@ class ChipTableModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'chips': _chips.map((chip) => {'text': chip.text, 'done': chip.done}).toList(),
+      'chips':
+          _chips.map((chip) => {'text': chip.text, 'done': chip.done}).toList(),
       'totalChips': _totalChips,
       'doneChips': _doneChips,
       'completed': _completed,
@@ -98,6 +99,6 @@ class ChipTableModel {
 
   String get completionPercentage {
     if (_totalChips == 0) return "0%";
-    return "${(_doneChips / _totalChips *100).toStringAsFixed(2)}%";
+    return "${(_doneChips / _totalChips * 100).toStringAsFixed(2)}%";
   }
 }
