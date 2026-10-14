@@ -1,0 +1,9 @@
+flutter_native_splash:
+  # El color de fondo (tu morado)
+  color: "#8E54B1" # Reemplaza con el código HEX exacto de tu logo
+  # Tu logo con fondo transparente
+  image: assets/Bingo_it_all_logo.png
+  
+  android_12:
+    color: "#8E54B1"
+    image: assets/Bingo_it_all_logo.png
