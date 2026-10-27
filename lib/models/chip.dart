@@ -1,12 +1,14 @@
+import 'package:bingo_it_all/models/chip_table_column.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
 
 class ChipModel {
   bool _done = false;
   final String _text;
   final ChipTableModel _table;
+  final ChipTableColumn? category;
 
-  ChipModel.withDone(this._text, this._done, this._table);
-  ChipModel(this._text, this._table);
+  ChipModel.withDone(this._text, this._done, this._table, {this.category});
+  ChipModel(this._text, this._table, {this.category});
 
   bool get done {
     return _done;

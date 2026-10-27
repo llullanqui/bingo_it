@@ -1,6 +1,8 @@
 import 'package:bingo_it_all/models/chip.dart';
+import 'package:bingo_it_all/models/chip_table_column.dart';
 
 class ChipTableModel {
+  List<ChipTableColumn> columns = [];
   List<ChipModel> _chips = List.empty(growable: true);
   int _totalChips = 0;
   int _doneChips = 0;
@@ -17,6 +19,13 @@ class ChipTableModel {
       'doneChips': _doneChips,
       'completed': _completed,
       'name': name,
+      'columns': columns
+          .map((column) => {
+                'name': column.name,
+                'displayName': column.displayName,
+                'order': column.order
+              })
+          .toList()
     };
   }
 
@@ -34,6 +43,13 @@ class ChipTableModel {
     table._totalChips = json['totalChips'];
     table._completed = json['completed'];
     table.name = json['name'];
+    table.columns = (json['columns'] as List)
+        .map((columnData) => ChipTableColumn(
+              columnData['name'],
+              displayName: columnData['displayName'],
+              order: columnData['order']
+            ))
+        .toList();
     return table;
   }
 
@@ -45,6 +61,10 @@ class ChipTableModel {
 
   List<ChipModel> get chips {
     return _chips;
+  }
+
+  List<ChipTableColumn> get tableColumns {
+    return columns;
   }
 
   int get chipsAmount {

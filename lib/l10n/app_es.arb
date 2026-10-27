@@ -1,8 +1,11 @@
 {
     "@@locale": "es",
     "appTitle": "¡Bingo it all!",
-    "newTable": "Nueva Tabla",
-    "savedTables": "Tablas Guardadas",
+    "classic75Bingo": "Bingo 75 Clásico",
+    "classic90Bingo": "Bingo 90 Clásico",
+    "classicBingo": "Bingo Clásico",
+    "newTable": "Bingo Personalizado",
+    "savedTables": "Bingos Guardados",
     "addChipHint": "Escribe el chip que crees que sucederá",
     "noChipsYet": "Aún no hay chips",
     "readyToStart": "¿Listo para comenzar?",

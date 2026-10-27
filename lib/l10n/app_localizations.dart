@@ -104,16 +104,34 @@ abstract class AppLocalizations {
   /// **'Bingo it all!'**
   String get appTitle;
 
+  /// No description provided for @classic75Bingo.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic 75 Bingo'**
+  String get classic75Bingo;
+
+  /// No description provided for @classic90Bingo.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic 90 Bingo'**
+  String get classic90Bingo;
+
+  /// No description provided for @classicBingo.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic Bingo'**
+  String get classicBingo;
+
   /// No description provided for @newTable.
   ///
   /// In en, this message translates to:
-  /// **'New Table'**
+  /// **'Custom Bingo'**
   String get newTable;
 
   /// No description provided for @savedTables.
   ///
   /// In en, this message translates to:
-  /// **'Saved Tables'**
+  /// **'Saved Bingos'**
   String get savedTables;
 
   /// No description provided for @addChipHint.

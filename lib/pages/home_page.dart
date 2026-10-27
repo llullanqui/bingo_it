@@ -1,9 +1,12 @@
 import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/services/table_generator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bingo_it_all/constants/app_constants.dart';
 import 'package:bingo_it_all/l10n/app_localizations.dart';
 import 'package:bingo_it_all/state/current_table.dart';
+import 'package:bingo_it_all/enums/classic_bingo_type.dart';
+import 'package:bingo_it_all/widgets/main_page_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,37 +31,47 @@ class _HomePageState extends State<HomePage> {
                 letterSpacing: 2,
               ),
             ),
-            const SizedBox(height: 48),
-            SizedBox(
-              width: 220,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  Provider.of<CurrentTable>(context, listen: false)
-                      .currentTable = ChipTableModel.empty();
-                  Navigator.pushNamed(context, AppConstants.chipTableRoute);
-                },
-                child: Text(AppLocalizations.of(context).newTable),
-              ),
+            const SizedBox(height: AppConstants.homePageSpacing),
+            MainPageButton(
+              AppLocalizations.of(context).classic75Bingo,
+              onPressed: () {
+                final service = TableGeneratorService();
+                Provider.of<CurrentTable>(context, listen: false)
+                .currentTable = service.generateClassicTable(  
+                  name: AppLocalizations.of(context).classicBingo, 
+                  type: ClassicBingoType.bingo75
+                );
+                Navigator.pushNamed(context, AppConstants.chipTableRoute);
+              },
             ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: 220,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppConstants.savedTablesRoute);
-                },
-                child: Text(AppLocalizations.of(context).savedTables),
-              ),
+            const SizedBox(height: AppConstants.homePageButtonSpacing),
+            MainPageButton(
+              AppLocalizations.of(context).classic90Bingo,
+              onPressed: () {
+                final service = TableGeneratorService();
+                Provider.of<CurrentTable>(context, listen: false)
+                .currentTable = service.generateClassicTable(  
+                  name: AppLocalizations.of(context).classicBingo, 
+                  type: ClassicBingoType.bingo90
+                );
+                Navigator.pushNamed(context, AppConstants.chipTableRoute);
+              },
+            ),
+            const SizedBox(height: AppConstants.homePageButtonSpacing),
+            MainPageButton(
+              AppLocalizations.of(context).newTable,
+              onPressed: () {
+                Provider.of<CurrentTable>(context, listen: false).currentTable =
+                    ChipTableModel.empty();
+                Navigator.pushNamed(context, AppConstants.chipTableRoute);
+              },
+            ),
+            const SizedBox(height: AppConstants.homePageButtonSpacing),
+            MainPageButton(
+              AppLocalizations.of(context).savedTables,
+              onPressed: () {
+                Navigator.pushNamed(context, AppConstants.savedTablesRoute);
+              },
             ),
           ],
         ),

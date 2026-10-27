@@ -12,10 +12,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => '¡Bingo it all!';
 
   @override
-  String get newTable => 'Nueva Tabla';
+  String get classic75Bingo => 'Bingo 75 Clásico';
 
   @override
-  String get savedTables => 'Tablas Guardadas';
+  String get classic90Bingo => 'Bingo 90 Clásico';
+
+  @override
+  String get classicBingo => 'Bingo Clásico';
+
+  @override
+  String get newTable => 'Bingo Personalizado';
+
+  @override
+  String get savedTables => 'Bingos Guardados';
 
   @override
   String get addChipHint => 'Escribe el chip que crees que sucederá';
