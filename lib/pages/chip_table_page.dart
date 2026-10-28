@@ -4,7 +4,7 @@ import 'package:bingo_it_all/constants/app_constants.dart';
 import 'package:bingo_it_all/enums/chip_table_page_status.dart';
 import 'package:bingo_it_all/l10n/app_localizations.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
-import 'package:bingo_it_all/services/table_storage_service.dart';
+import 'package:bingo_it_all/services/table_handlers/table_handler_service.dart';
 import 'package:bingo_it_all/state/current_chip_table_status.dart';
 import 'package:bingo_it_all/state/current_table.dart';
 import 'package:bingo_it_all/widgets/chip_table.dart';
@@ -26,6 +26,7 @@ class ChipTablePageState extends State<ChipTablePage> {
   late TextEditingController _textController;
   ConfettiController? _confettiController;
   final _formKey = GlobalKey<FormState>();
+  final tableHandlerService = TableHandlerService();
 
   /// call the kill method to kill the confetti
   /// controller.kill();
@@ -63,7 +64,7 @@ class ChipTablePageState extends State<ChipTablePage> {
       ),
     );
 
-    await TableStorageService.saveTable(chipTable!);
+    await tableHandlerService.insertTable(chipTable!);
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(

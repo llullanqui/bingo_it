@@ -1,8 +1,8 @@
 import 'package:bingo_it_all/enums/chip_table_page_status.dart';
 import 'package:bingo_it_all/l10n/app_localizations.dart';
-import 'package:bingo_it_all/models/chip.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:bingo_it_all/pages/chip_table_page.dart';
+import 'package:bingo_it_all/services/table_handlers/table_handler_service.dart';
 import 'package:bingo_it_all/state/current_chip_table_status.dart';
 import 'package:bingo_it_all/state/current_table.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,10 @@ void main() {
   group("ChipTablePage", () {
     setUp(() {
       mockTable = ChipTableModel.empty();
-      filledMockTable = ChipTableModel([
-        ...List.generate(
-            10, (index) => ChipModel('Item ${index + 1}', mockTable))
-      ]);
+      filledMockTable = ChipTableModel.empty();
+      for (var index = 0; index < 10; index++) {
+        filledMockTable.addChip('Item ${index + 1}');
+      }
       SharedPreferences.setMockInitialValues({});
     });
 
@@ -90,6 +90,34 @@ void main() {
       expect(find.byIcon(Icons.save), findsOneWidget);
     });
 
+    testWidgets('validates empty chip text and allows cancelling',
+        (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Add'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Please enter some text'), findsOneWidget);
+      await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(mockTable.chips, isEmpty);
+    });
+
+    testWidgets('cannot save a table with fewer than five chips',
+        (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.tap(find.byIcon(Icons.save));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Add at least 5 chips'), findsOneWidget);
+      expect(find.byType(TextField), findsNothing);
+    });
+
     testWidgets('Shows error when trying to start with less than 5 items',
         (tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -97,7 +125,23 @@ void main() {
       await tester.tap(find.byIcon(Icons.star_rate_outlined));
       await tester.pumpAndSettle();
 
-      expect(find.text('Add at least 5 items'), findsOneWidget);
+      expect(find.text('Add at least 5 chips'), findsOneWidget);
+    });
+
+    testWidgets('does not start when the start confirmation is declined',
+        (tester) async {
+      await tester.pumpWidget(createFilledWidgetUnderTest());
+
+      await tester.tap(find.byIcon(Icons.star_rate_outlined));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('No'));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.state<ChipTablePageState>(find.byType(ChipTablePage)).pageStatus,
+        ChipTablePageStatus.setup,
+      );
+      expect(find.text('Ready to start?'), findsNothing);
     });
 
     testWidgets('Changes state when trying to start with more than 5 items',
@@ -110,7 +154,7 @@ void main() {
       await tester.tap(find.text("Let's go!"));
       await tester.pumpAndSettle();
 
-      expect(find.text('Add at least 5 items'), findsNothing);
+      expect(find.text('Add at least 5 chips'), findsNothing);
       expect(
           tester
               .state<ChipTablePageState>(find.byType(ChipTablePage))
@@ -130,6 +174,63 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Table saved successfully!'), findsOneWidget);
+    });
+
+    testWidgets('can cancel saving a table without persisting it',
+        (tester) async {
+      await tester.pumpWidget(createFilledWidgetUnderTest());
+
+      await tester.tap(find.byIcon(Icons.save));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField), 'Cancelled table');
+      await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(filledMockTable.name, isNull);
+      expect(await TableHandlerService().getSavedTables(), isEmpty);
+    });
+
+    testWidgets('marks chips complete and shows the winning state',
+        (tester) async {
+      final table = ChipTableModel.empty();
+      for (var index = 0; index < 5; index++) {
+        table.addChip('Chip ${index + 1}');
+      }
+      filledMockTable = table;
+      await tester.pumpWidget(createFilledWidgetUnderTest());
+
+      await tester.tap(find.byIcon(Icons.star_rate_outlined));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text("Let's go!"));
+      await tester.pumpAndSettle();
+
+      for (var index = 1; index <= 5; index++) {
+        await tester.tap(find.text('Chip $index'));
+        await tester.pump();
+      }
+
+      expect(find.text('100.00%'), findsOneWidget);
+      expect(find.text('YOU WIN!'), findsOneWidget);
+      expect(
+        tester.state<ChipTablePageState>(find.byType(ChipTablePage)).pageStatus,
+        ChipTablePageStatus.completed,
+      );
+    });
+
+    testWidgets('can remove a chip from the table after confirmation',
+        (tester) async {
+      await tester.pumpWidget(createFilledWidgetUnderTest());
+
+      await tester.longPress(find.text('Item 1'));
+      await tester.pumpAndSettle();
+      expect(find.text('Sure you want to delete the chip?'), findsOneWidget);
+
+      await tester.tap(find.text('Yes'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Item 1'), findsNothing);
+      expect(filledMockTable.chipsAmount, 9);
     });
 
     testWidgets('Can restart table', (tester) async {

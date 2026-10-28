@@ -1,10 +1,10 @@
 import 'package:bingo_it_all/constants/app_constants.dart';
 import 'package:bingo_it_all/l10n/app_localizations.dart';
+import 'package:bingo_it_all/services/table_handlers/table_handler_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:bingo_it_all/state/current_table.dart';
-import 'package:bingo_it_all/services/table_storage_service.dart';
 
 class TableDraftsPage extends StatefulWidget {
   const TableDraftsPage({super.key});
@@ -16,6 +16,7 @@ class TableDraftsPage extends StatefulWidget {
 class _TableDraftsPageState extends State<TableDraftsPage> {
   List<ChipTableModel> savedTables = [];
   bool isLoading = true;
+  final TableHandlerService tableHandlerService = TableHandlerService();
 
   @override
   void initState() {
@@ -24,17 +25,17 @@ class _TableDraftsPageState extends State<TableDraftsPage> {
   }
 
   Future<void> _loadSavedTables() async {
-    final tables = await TableStorageService.loadSavedTables();
+    final tables = await tableHandlerService.getSavedTables();
     setState(() {
       savedTables = tables;
       isLoading = false;
     });
   }
 
-  Future<void> _deleteTable(int index) async {
-    await TableStorageService.deleteTable(index);
+  Future<void> _deleteTable(ChipTableModel table) async {
+    await tableHandlerService.deleteTable(table.id);
     setState(() {
-      savedTables.removeAt(index);
+      savedTables.remove(table);
     });
   }
 
@@ -63,7 +64,7 @@ class _TableDraftsPageState extends State<TableDraftsPage> {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       direction: DismissDirection.endToStart,
-                      onDismissed: (direction) => _deleteTable(index),
+                      onDismissed: (direction) => _deleteTable(table),
                       child: ListTile(
                         title: Text(
                             '${AppLocalizations.of(context).table} #${index + 1}: ${table.name}'),

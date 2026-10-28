@@ -2,7 +2,7 @@ import 'package:bingo_it_all/constants/app_constants.dart';
 import 'package:bingo_it_all/l10n/app_localizations.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:bingo_it_all/pages/table_drafts_page.dart';
-import 'package:bingo_it_all/services/table_storage_service.dart';
+import 'package:bingo_it_all/services/table_handlers/table_handler_service.dart';
 import 'package:bingo_it_all/state/current_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,14 +38,14 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
 
-    expect(find.text('Saved Tables'), findsOneWidget);
+    expect(find.text('Saved Bingos'), findsOneWidget);
     expect(find.text('No saved tables yet'), findsOneWidget);
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
   testWidgets('shows saved draft name and chip count', (tester) async {
     final table = ChipTableModel.name('Weekend')..addChip('Rain');
-    await TableStorageService.saveTable(table);
+    await TableHandlerService().insertTable(table);
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
@@ -57,7 +57,7 @@ void main() {
   testWidgets('selecting a draft updates the current table and navigates',
       (tester) async {
     final table = ChipTableModel.name('Selected')..addChip('Item');
-    await TableStorageService.saveTable(table);
+    await TableHandlerService().insertTable(table);
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
@@ -69,14 +69,17 @@ void main() {
   });
 
   testWidgets('dismissing a draft deletes it from storage', (tester) async {
-    await TableStorageService.saveTable(ChipTableModel.name('To delete'));
+    await TableHandlerService().insertTable(ChipTableModel.name('To delete'));
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
     await tester.drag(find.byType(Dismissible), const Offset(-500, 0));
     await tester.pumpAndSettle();
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 100)),
+    );
 
     expect(find.text('Table #1: To delete'), findsNothing);
-    expect(await TableStorageService.loadSavedTables(), isEmpty);
+    expect(await TableHandlerService().getSavedTables(), isEmpty);
   });
 }

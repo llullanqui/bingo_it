@@ -1,13 +1,16 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:bingo_it_all/models/chip.dart';
 import 'package:bingo_it_all/models/chip_table_column.dart';
 
 class ChipTableModel {
-  List<ChipTableColumn> columns = [];
-  List<ChipModel> _chips = List.empty(growable: true);
+  late String id;
+  String? name;
   int _totalChips = 0;
   int _doneChips = 0;
   bool _completed = false;
-  String? name;
+  List<ChipModel> _chips = List.empty(growable: true);
+  List<ChipTableColumn> columns = [];
 
   int get completedChips => _doneChips;
 
@@ -19,6 +22,7 @@ class ChipTableModel {
       'doneChips': _doneChips,
       'completed': _completed,
       'name': name,
+      'id': id,
       'columns': columns
           .map((column) => {
                 'name': column.name,
@@ -43,21 +47,27 @@ class ChipTableModel {
     table._totalChips = json['totalChips'];
     table._completed = json['completed'];
     table.name = json['name'];
+    table.id = json['id'];
     table.columns = (json['columns'] as List)
-        .map((columnData) => ChipTableColumn(
-              columnData['name'],
-              displayName: columnData['displayName'],
-              order: columnData['order']
-            ))
+        .map((columnData) => ChipTableColumn(columnData['name'],
+            displayName: columnData['displayName'], order: columnData['order']))
         .toList();
     return table;
   }
 
   ChipTableModel(this._chips) {
+    var uuid = Uuid();
+    id = uuid.v4();
     _totalChips = _chips.length;
   }
-  ChipTableModel.name(this.name);
-  ChipTableModel.empty();
+  ChipTableModel.name(this.name) {
+    var uuid = Uuid();
+    id = uuid.v4();
+  }
+  ChipTableModel.empty() {
+    var uuid = Uuid();
+    id = uuid.v4();
+  }
 
   List<ChipModel> get chips {
     return _chips;
@@ -89,8 +99,8 @@ class ChipTableModel {
     _updateCompleted();
   }
 
-  void addChip(String text) {
-    _chips.add(ChipModel(text, this));
+  void addChip(String text, {ChipTableColumn? category}) {
+    _chips.add(ChipModel(text, this, category: category));
     _totalChips += 1;
     _updateCompleted();
   }
