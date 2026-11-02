@@ -9,18 +9,19 @@ mixin ClassicTableGeneratorMixin {
     final random = Random();
     ChipTableModel table = ChipTableModel.empty();
     for (var i = 0; i < columns.length; i++) {
-      ChipTableColumn column = ChipTableColumn(columns[i], order: i + 1);
-      table.columns.add(column);
+      ChipTableColumnModel column = ChipTableColumnModel(columns[i], order: i + 1);
+      table.addColumn(column);
       List<int> numbers =
           List.generate(range, (index) => index + 1 + (i * range))
             ..shuffle(random);
-      for (final number in numbers.take(chipsPerColumn)) {
-        table.addChip(number.toString(), category: column);
-      }
+      numbers.take(chipsPerColumn).forEach((number) {
+        table.addChip(number.toString(), category: column, row: numbers.indexOf(number) + 1);
+      });
     }
     if (name != null) {
       table.name = name;
     }
+    table.toggleDisplayColumns();
     return table;
   }
 }

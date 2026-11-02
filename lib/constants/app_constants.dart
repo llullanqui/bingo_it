@@ -39,5 +39,6 @@ class AppConstants {
   ];
   static const int classicBingo75ChipsPerColumn = 5;
   static const int classicBingo90ChipsPerColumn = 3;
+  static const int defaultColumnsAmount = 1;
   AppConstants._();
 }

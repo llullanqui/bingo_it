@@ -9,27 +9,31 @@ class ChipTableModel {
   int _totalChips = 0;
   int _doneChips = 0;
   bool _completed = false;
+  bool _displayColumns = false;
   List<ChipModel> _chips = List.empty(growable: true);
-  List<ChipTableColumn> columns = [];
+  List<ChipTableColumnModel> _columns = List.empty(growable: true);
 
   int get completedChips => _doneChips;
 
   Map<String, dynamic> toJson() {
     return {
-      'chips':
-          _chips.map((chip) => {'text': chip.text, 'done': chip.done}).toList(),
+      'chips': _chips
+          .map((chip) => {'text': chip.text, 'done': chip.done})
+          .toList(),
       'totalChips': _totalChips,
       'doneChips': _doneChips,
       'completed': _completed,
       'name': name,
       'id': id,
-      'columns': columns
-          .map((column) => {
-                'name': column.name,
-                'displayName': column.displayName,
-                'order': column.order
-              })
-          .toList()
+      'columns': _columns
+          .map(
+            (column) => {
+              'name': column.name,
+              'displayName': column.displayedName,
+              'order': column.order,
+            },
+          )
+          .toList(),
     };
   }
 
@@ -48,9 +52,14 @@ class ChipTableModel {
     table._completed = json['completed'];
     table.name = json['name'];
     table.id = json['id'];
-    table.columns = (json['columns'] as List)
-        .map((columnData) => ChipTableColumn(columnData['name'],
-            displayName: columnData['displayName'], order: columnData['order']))
+    table._columns = (json['columns'] as List)
+        .map(
+          (columnData) => ChipTableColumnModel(
+            columnData['name'],
+            displayName: columnData['displayName'],
+            order: columnData['order'],
+          ),
+        )
         .toList();
     return table;
   }
@@ -69,12 +78,16 @@ class ChipTableModel {
     id = uuid.v4();
   }
 
+  List<ChipModel> get sortedChips {
+    return _chips..sort((a, b) => a.comparatorByRowAndCategory(a, b));
+  }
+
   List<ChipModel> get chips {
     return _chips;
   }
 
-  List<ChipTableColumn> get tableColumns {
-    return columns;
+  List<ChipTableColumnModel> get tableColumns {
+    return _columns;
   }
 
   int get chipsAmount {
@@ -99,8 +112,8 @@ class ChipTableModel {
     _updateCompleted();
   }
 
-  void addChip(String text, {ChipTableColumn? category}) {
-    _chips.add(ChipModel(text, this, category: category));
+  void addChip(String text, {ChipTableColumnModel? category, int? row}) {
+    _chips.add(ChipModel(text, this, category: category, row: row));
     _totalChips += 1;
     _updateCompleted();
   }
@@ -122,6 +135,7 @@ class ChipTableModel {
 
   void emptyTable() {
     _chips = List.empty(growable: true);
+    _columns = List.empty(growable: true);
     _totalChips = 0;
     _doneChips = 0;
     _completed = false;
@@ -130,5 +144,17 @@ class ChipTableModel {
   String get completionPercentage {
     if (_totalChips == 0) return "0%";
     return "${(_doneChips / _totalChips * 100).toStringAsFixed(2)}%";
+  }
+
+  void addColumn(ChipTableColumnModel column) {
+    _columns.add(column);
+  }
+
+  bool displayColumns() {
+    return _displayColumns;
+  }
+
+  void toggleDisplayColumns() {
+    _displayColumns = !_displayColumns;
   }
 }

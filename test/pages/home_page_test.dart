@@ -62,7 +62,7 @@ void main() {
     expect(find.text('Chip table route'), findsOneWidget);
     expect(table.name, 'Classic Bingo');
     expect(table.chips, hasLength(25));
-    expect(table.columns.map((column) => column.name),
+    expect(table.tableColumns.map((column) => column.name),
         AppConstants.classicBingo75Columns);
   });
 
@@ -76,7 +76,7 @@ void main() {
     expect(find.text('Chip table route'), findsOneWidget);
     expect(table.name, 'Classic Bingo');
     expect(table.chips, hasLength(27));
-    expect(table.columns.map((column) => column.name),
+    expect(table.tableColumns.map((column) => column.name),
         AppConstants.classicBingo90Columns);
   });
 

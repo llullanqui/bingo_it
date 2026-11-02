@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bingo_it_all/models/chip.dart';
 import 'package:bingo_it_all/models/chip_table.dart';
+import 'package:bingo_it_all/models/chip_table_column.dart';
 
 class FakeChipTable implements ChipTableModel {
   int addCompletedCount = 0;
@@ -74,6 +75,40 @@ void main() {
 
       expect(table.removedChips.length, equals(1));
       expect(identical(table.removedChips.first, chip), isTrue);
+    });
+
+    test('comparator sorts by row then category order', () {
+      final table = FakeChipTable();
+      final chips = [
+        ChipModel(
+          '1',
+          table,
+          row: 2,
+          category: ChipTableColumnModel('category', order: 1),
+        ),
+        ChipModel(
+          '2',
+          table,
+          row: 1,
+          category: ChipTableColumnModel('category', order: 2),
+        ),
+        ChipModel(
+          '3',
+          table,
+          row: 2,
+          category: ChipTableColumnModel('category', order: 2),
+        ),
+        ChipModel(
+          '4',
+          table,
+          row: 1,
+          category: ChipTableColumnModel('category', order: 1),
+        ),
+      ];
+
+      chips.sort(chips.first.comparatorByRowAndCategory);
+
+      expect(chips.map((chip) => chip.text), equals(['4', '2', '1', '3']));
     });
   });
 }

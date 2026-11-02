@@ -394,7 +394,7 @@ class ChipTablePageState extends State<ChipTablePage> {
           children: [
             ChipTable(
               chipTable: chipTable,
-              playing: pageStatus == ChipTablePageStatus.playing,
+              playing: pageStatus == ChipTablePageStatus.playing
             ),
             completedMessage(),
           ],

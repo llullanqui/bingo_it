@@ -76,9 +76,11 @@ class _BingoChipState extends State<BingoChip> {
               vertical: AppConstants.chipVerticalPadding,
               horizontal: AppConstants.chipHorizontalPadding,
             ),
-            child: Text(
-              widget.chip.text,
-              textAlign: TextAlign.center,
+            child: Center(
+              child: Text(
+                widget.chip.text,
+                textAlign: TextAlign.center,
+              ),
             ),
           )),
     );

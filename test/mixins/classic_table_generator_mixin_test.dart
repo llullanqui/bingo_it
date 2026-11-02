@@ -19,16 +19,16 @@ void main() {
       expect(table.chipsAmount, 12);
       expect(table.chips, hasLength(12));
       expect(
-        table.columns.map((column) => column.name),
+        table.tableColumns.map((column) => column.name),
         ['B', 'I', 'N'],
       );
       expect(
-        table.columns.map((column) => column.order),
+        table.tableColumns.map((column) => column.order),
         [1, 2, 3],
       );
 
-      for (var index = 0; index < table.columns.length; index++) {
-        final column = table.columns[index];
+      for (var index = 0; index < table.tableColumns.length; index++) {
+        final column = table.tableColumns[index];
         final columnChips =
             table.chips.where((chip) => identical(chip.category, column));
         final numbers =
@@ -48,14 +48,14 @@ void main() {
       final table = generator.generateClassicTable(['Only'], 2, 5);
 
       expect(table.name, isNull);
-      expect(table.columns, hasLength(1));
+      expect(table.tableColumns, hasLength(1));
       expect(table.chips, hasLength(2));
       expect(
         table.chips.map((chip) => int.parse(chip.text)).toSet(),
         {1, 2},
       );
       expect(
-        table.chips.every((chip) => identical(chip.category, table.columns[0])),
+        table.chips.every((chip) => identical(chip.category, table.tableColumns[0])),
         isTrue,
       );
     });

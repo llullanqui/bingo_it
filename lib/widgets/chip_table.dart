@@ -35,24 +35,35 @@ class _ChipTableState extends State<ChipTable> {
       ));
       return widgetList;
     }
+
+    if (widget.chipTable!.displayColumns()) {
+      widgetList.addAll(widget.chipTable!.tableColumns.map((column) {
+        return 
+          Center (
+          child: Text(
+            column.displayedName,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        );
+      }).toList());
+    }
+
     for (var element in widget.chipTable!.chips) {
-      widgetList.add(Container(
-        margin: const EdgeInsets.all(AppConstants.chipSpacing),
-        child: BingoChip(
-          chip: element,
-          enabled: widget.playing && !completed,
-          playing: widget.playing,
-          onDelete: () {
-            setState(() {});
-          },
-          onDone: () {
-            Provider.of<CurrentChipTableStatus>(context, listen: false)
-                    .setCompletionPercentage =
-                widget.chipTable!.completionPercentage;
-            Provider.of<CurrentChipTableStatus>(context, listen: false)
-                .setIsCompleted = widget.chipTable!.isCompleted;
-          },
-        ),
+      widgetList.add(BingoChip(
+        chip: element,
+        enabled: widget.playing && !completed,
+        playing: widget.playing,
+        onDelete: () {
+          setState(() {});
+        },
+        onDone: () {
+          Provider.of<CurrentChipTableStatus>(context, listen: false)
+                  .setCompletionPercentage =
+              widget.chipTable!.completionPercentage;
+          Provider.of<CurrentChipTableStatus>(context, listen: false)
+              .setIsCompleted = widget.chipTable!.isCompleted;
+        },
       ));
     }
     return widgetList;
@@ -67,12 +78,54 @@ class _ChipTableState extends State<ChipTable> {
                 minHeight: constraints.maxHeight,
                 minWidth: constraints.maxWidth,
               ),
-              child: Column(
-                  spacing: AppConstants.chipSpacing,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: widget.chipTable!.chipsAmount > 0 
+                ? GridBuilder(
+                  columns: widget.chipTable!.tableColumns.isNotEmpty 
+                    ? widget.chipTable!.tableColumns.length 
+                    : AppConstants.defaultColumnsAmount,
                   children: chipsTableWidget(
-                      widget.chipTable?.isCompleted ?? false))));
+                      widget.chipTable?.isCompleted ?? false)) 
+                : const EmptyChipTable()));
     });
+  }
+}
+
+class EmptyChipTable extends StatelessWidget {
+  const EmptyChipTable({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        AppLocalizations.of(context).noChipsYet,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
+  }
+}
+
+class GridBuilder extends StatelessWidget {
+  final int columns;
+  final List<Widget> children;
+
+  const GridBuilder({super.key, required this.columns, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+      child: GridView.count(
+        crossAxisCount: columns,
+        childAspectRatio: 1.0,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: AppConstants.chipSpacing,
+        crossAxisSpacing: AppConstants.chipSpacing,
+        padding: const EdgeInsets.all(AppConstants.chipSpacing),
+        children: children,
+        
+      ),
+    );
   }
 }

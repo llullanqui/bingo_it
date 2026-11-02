@@ -11,15 +11,15 @@ void main() {
       expect(table.name, '75-ball');
       expect(table.chips, hasLength(25));
       expect(
-        table.columns.map((column) => column.name),
+        table.tableColumns.map((column) => column.name),
         AppConstants.classicBingo75Columns,
       );
       expect(
-        table.columns.map((column) => column.order),
+        table.tableColumns.map((column) => column.order),
         [1, 2, 3, 4, 5],
       );
-      for (var index = 0; index < table.columns.length; index++) {
-        final column = table.columns[index];
+      for (var index = 0; index < table.tableColumns.length; index++) {
+        final column = table.tableColumns[index];
         final chips = table.chips
             .where((chip) => identical(chip.category, column))
             .toList();
@@ -42,15 +42,15 @@ void main() {
       expect(table.name, '90-ball');
       expect(table.chips, hasLength(27));
       expect(
-        table.columns.map((column) => column.name),
+        table.tableColumns.map((column) => column.name),
         AppConstants.classicBingo90Columns,
       );
       expect(
-        table.columns.map((column) => column.order),
+        table.tableColumns.map((column) => column.order),
         [1, 2, 3, 4, 5, 6, 7, 8, 9],
       );
-      for (var index = 0; index < table.columns.length; index++) {
-        final column = table.columns[index];
+      for (var index = 0; index < table.tableColumns.length; index++) {
+        final column = table.tableColumns[index];
         final chips = table.chips
             .where((chip) => identical(chip.category, column))
             .toList();
