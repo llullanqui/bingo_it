@@ -16,6 +16,11 @@ class AppConstants {
   static const String addButtonHeroTag = 'add_button_hero';
   static const String restartButtonHeroTag = 'restart_button_hero';
   static const String saveButtonHeroTag = 'save_button_hero';
+  static const String grid1HeroTag = 'grid1_hero';
+  static const String grid2HeroTag = 'grid2_hero';
+  static const String grid3HeroTag = 'grid3_hero';
+  static const String grid4HeroTag = 'grid4_hero';
+  static const String grid5HeroTag = 'grid5_hero';
   static const double homePageSpacing = 48.0;
   static const double homePageButtonSpacing = 24.0;
   static const double homePageButtonWidth = 220.0;
@@ -39,6 +44,6 @@ class AppConstants {
   ];
   static const int classicBingo75ChipsPerColumn = 5;
   static const int classicBingo90ChipsPerColumn = 3;
-  static const int defaultColumnsAmount = 1;
+  static const int defaultColumnsAmount = 2;
   AppConstants._();
 }

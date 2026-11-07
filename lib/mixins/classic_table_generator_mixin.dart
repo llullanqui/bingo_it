@@ -15,7 +15,10 @@ mixin ClassicTableGeneratorMixin {
           List.generate(range, (index) => index + 1 + (i * range))
             ..shuffle(random);
       numbers.take(chipsPerColumn).forEach((number) {
-        table.addChip(number.toString(), category: column, row: numbers.indexOf(number) + 1);
+        table.addChip(number.toString(), 
+          category: column, 
+          row: numbers.indexOf(number) + 1, 
+          order: numbers.indexOf(number)*range + i + 1);
       });
     }
     if (name != null) {

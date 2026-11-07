@@ -78,8 +78,12 @@ class ChipTableModel {
     id = uuid.v4();
   }
 
-  List<ChipModel> get sortedChips {
+  List<ChipModel> get sortedChipsByRowAndCategory {
     return _chips..sort((a, b) => a.comparatorByRowAndCategory(a, b));
+  }
+
+  List<ChipModel> get sortedChipsByOrder {
+    return _chips..sort((a, b) => a.order.compareTo(b.order));
   }
 
   List<ChipModel> get chips {
@@ -112,8 +116,21 @@ class ChipTableModel {
     _updateCompleted();
   }
 
-  void addChip(String text, {ChipTableColumnModel? category, int? row}) {
-    _chips.add(ChipModel(text, this, category: category, row: row));
+  void addChip(
+    String text, {
+    ChipTableColumnModel? category,
+    int? row,
+    int? order,
+  }) {
+    _chips.add(
+      ChipModel(
+        text,
+        this,
+        category: category,
+        row: row,
+        order: order ?? _chips.length + 1,
+      ),
+    );
     _totalChips += 1;
     _updateCompleted();
   }

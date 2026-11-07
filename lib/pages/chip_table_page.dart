@@ -7,6 +7,8 @@ import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:bingo_it_all/services/table_handlers/table_handler_service.dart';
 import 'package:bingo_it_all/state/current_chip_table_status.dart';
 import 'package:bingo_it_all/state/current_table.dart';
+import 'package:bingo_it_all/widgets/buttons/option_button.dart';
+import 'package:bingo_it_all/widgets/buttons/option_list_button.dart';
 import 'package:bingo_it_all/widgets/chip_table.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -83,125 +85,125 @@ class ChipTablePageState extends State<ChipTablePage> {
     setState(() {
       chipTable!.restartTable();
     });
-    Provider.of<CurrentChipTableStatus>(context, listen: false)
-        .updateStatus(chipTable!);
+    Provider.of<CurrentChipTableStatus>(
+      context,
+      listen: false,
+    ).updateStatus(chipTable!);
     pageStatus = ChipTablePageStatus.setup;
   }
 
   void _notReadyYetAlert() {
     showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            AppLocalizations.of(
+              context,
+            ).addAtLeastChip(AppConstants.minimumChips),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text(AppLocalizations.of(context).ok),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> startFunction() async {
+    if (!_minimumAmountFilled()) {
+      _notReadyYetAlert();
+    } else {
+      final result = await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context)
-                .addAtLeastChip(AppConstants.minimumChips)),
+            title: Text(AppLocalizations.of(context).readyToStart),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: Text(AppLocalizations.of(context).ok)),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: Text(AppLocalizations.of(context).no),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Text(AppLocalizations.of(context).letsGo),
+              ),
             ],
           );
+        },
+      );
+      if (result && !_minimumAmountFilled()) {
+        _notReadyYetAlert();
+      } else if (result && _minimumAmountFilled()) {
+        setState(() {
+          pageStatus = ChipTablePageStatus.playing;
+          chipTable!.restartTable();
         });
+      }
+    }
   }
 
-  Widget _startButton() {
-    return FloatingActionButton(
-      heroTag: AppConstants.startButtonHeroTag,
-      onPressed: () async {
-        if (!_minimumAmountFilled()) {
-          _notReadyYetAlert();
-        } else {
-          final result = await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(AppLocalizations.of(context).readyToStart),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        child: Text(AppLocalizations.of(context).no)),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: Text(AppLocalizations.of(context).letsGo)),
-                  ],
-                );
-              });
-          if (result && !_minimumAmountFilled()) {
-            _notReadyYetAlert();
-          } else if (result && _minimumAmountFilled()) {
-            setState(() {
-              pageStatus = ChipTablePageStatus.playing;
-              chipTable!.restartTable();
-            });
-          }
-        }
-      },
-      tooltip: AppLocalizations.of(context).startGame,
-      child: const Icon(Icons.star_rate_outlined),
-    );
-  }
-
-  Widget _addButton() {
-    return FloatingActionButton(
-      heroTag: AppConstants.addButtonHeroTag,
-      onPressed: () async {
-        final result = await showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context).add),
-                content: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        controller: _textController,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context).addChipHint),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context).pleaseEnterText;
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
+  Future<void> addFunction() async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).add),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _textController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context).addChipHint,
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context).pleaseEnterText;
+                    }
+                    return null;
+                  },
                 ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _textController.clear();
-                      },
-                      child: Text(AppLocalizations.of(context).cancel)),
-                  TextButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.pop(context, _textController.text);
-                          _textController.clear();
-                        }
-                      },
-                      child: Text(AppLocalizations.of(context).add)),
-                ],
-              );
-            });
-        if (result != null) {
-          result as String;
-          _addBingoChip(result);
-        }
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _textController.clear();
+              },
+              child: Text(AppLocalizations.of(context).cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  Navigator.pop(context, _textController.text);
+                  _textController.clear();
+                }
+              },
+              child: Text(AppLocalizations.of(context).add),
+            ),
+          ],
+        );
       },
-      tooltip: AppLocalizations.of(context).add,
-      child: const Icon(Icons.add),
     );
+    if (result != null) {
+      result as String;
+      _addBingoChip(result);
+    }
   }
 
   Widget _restartButton() {
@@ -209,24 +211,27 @@ class ChipTablePageState extends State<ChipTablePage> {
       heroTag: AppConstants.restartButtonHeroTag,
       onPressed: () async {
         final result = await showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context).sureToRestart),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      child: Text(AppLocalizations.of(context).no)),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: Text(AppLocalizations.of(context).yes)),
-                ],
-              );
-            });
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(AppLocalizations.of(context).sureToRestart),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: Text(AppLocalizations.of(context).no),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: Text(AppLocalizations.of(context).yes),
+                ),
+              ],
+            );
+          },
+        );
         if (result) {
           restartTable();
           setState(() {
@@ -239,53 +244,50 @@ class ChipTablePageState extends State<ChipTablePage> {
     );
   }
 
-  Widget _saveDraftButton() {
-    return FloatingActionButton(
-      heroTag: AppConstants.saveButtonHeroTag,
-      onPressed: () async {
-        if (!_minimumAmountFilled()) {
-          _notReadyYetAlert();
-        } else {
-          final result = await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(AppLocalizations.of(context).saveTable),
-                  content: TextField(
-                    controller: _textController,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context).saveTableHint),
-                  ),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _textController.clear();
-                        },
-                        child: Text(AppLocalizations.of(context).cancel)),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, _textController.text);
-                          chipTable!.name = _textController.text;
-                          _textController.clear();
-                        },
-                        child: Text(AppLocalizations.of(context).save)),
-                  ],
-                );
-              });
-          if (result != null) {
-            result as String;
-            _saveTable();
-          }
-        }
-      },
-      tooltip: AppLocalizations.of(context).saveTable,
-      child: const Icon(Icons.save),
-    );
+  Future<void> saveFunction() async {
+    if (!_minimumAmountFilled()) {
+      _notReadyYetAlert();
+    } else {
+      final result = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context).saveTable),
+            content: TextField(
+              controller: _textController,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context).saveTableHint,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _textController.clear();
+                },
+                child: Text(AppLocalizations.of(context).cancel),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, _textController.text);
+                  chipTable!.name = _textController.text;
+                  _textController.clear();
+                },
+                child: Text(AppLocalizations.of(context).save),
+              ),
+            ],
+          );
+        },
+      );
+      if (result != null) {
+        result as String;
+        _saveTable();
+      }
+    }
   }
 
-  Widget _actions() {
+  List<Widget> _actions() {
     if (pageStatus == ChipTablePageStatus.playing) {
       return _playingActions();
     } else if (pageStatus == ChipTablePageStatus.completed) {
@@ -295,30 +297,31 @@ class ChipTablePageState extends State<ChipTablePage> {
     }
   }
 
-  Widget _setupActions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _saveDraftButton(),
-        const SizedBox(
-          width: 4,
-        ),
-        _startButton(),
-        const SizedBox(
-          width: 4,
-        ),
-        _addButton(),
-      ],
-    );
+  List<Widget> _setupActions() {
+    return [
+      BottomBarButton(
+        icon: Icons.add,
+        onPressed: addFunction,
+        text: AppLocalizations.of(context).add,
+      ),
+      BottomBarButton(
+        icon: Icons.save,
+        onPressed: saveFunction,
+        text: AppLocalizations.of(context).save,
+      ),
+      BottomBarButton(
+        icon: Icons.star_border_rounded,
+        onPressed: startFunction,
+        text: AppLocalizations.of(context).startGame,
+      ),
+
+      // _saveDraftButton(),
+      // _startButton(),
+    ];
   }
 
-  Widget _playingActions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _restartButton(),
-      ],
-    );
+  List<Widget> _playingActions() {
+    return [_restartButton()];
   }
 
   Widget _completedPercentage() {
@@ -361,12 +364,17 @@ class ChipTablePageState extends State<ChipTablePage> {
                         });
                       },
                       options: const ConfettiOptions(
-                          particleCount: 100, spread: 70, y: 0.6),
+                        particleCount: 100,
+                        spread: 70,
+                        y: 0.6,
+                      ),
                     ),
                     Text(
                       AppLocalizations.of(context).youWin,
                       style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -381,24 +389,62 @@ class ChipTablePageState extends State<ChipTablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(AppLocalizations.of(context).appTitle),
-          actions: [
-            _completedPercentage(),
-          ],
-        ),
-        body: Center(
-            child: Stack(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(AppLocalizations.of(context).appTitle),
+        actions: [_completedPercentage()],
+      ),
+      body: Center(
+        child: Stack(
           alignment: Alignment.center,
           children: [
             ChipTable(
               chipTable: chipTable,
-              playing: pageStatus == ChipTablePageStatus.playing
+              playing: pageStatus == ChipTablePageStatus.playing,
             ),
             completedMessage(),
           ],
-        )),
-        floatingActionButton: _actions());
+        ),
+      ),
+      floatingActionButton: _GridModifier(),
+      persistentFooterButtons: _actions(),
+    );
+  }
+}
+
+class BottomBarButton extends StatelessWidget {
+  const BottomBarButton({super.key, this.onPressed, this.icon, this.text = ""});
+
+  final VoidCallback? onPressed;
+  final IconData? icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      icon: Icon(icon),
+      onPressed: onPressed,
+      label: Text(text),
+    );
+  }
+}
+
+class _GridModifier extends StatelessWidget {
+  const _GridModifier({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OptionListButton(
+      distance: 125,
+      children: [
+        OptionButton(
+          icon: Icon(Icons.looks_two),
+          tag: AppConstants.grid2HeroTag,
+        ),
+        OptionButton(icon: Icon(Icons.looks_3), tag: AppConstants.grid3HeroTag),
+        OptionButton(icon: Icon(Icons.looks_4), tag: AppConstants.grid4HeroTag),
+        OptionButton(icon: Icon(Icons.looks_5), tag: AppConstants.grid5HeroTag),
+      ],
+    );
   }
 }

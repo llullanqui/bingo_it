@@ -37,40 +37,40 @@ class _BingoChipState extends State<BingoChip> {
           : Theme.of(context).colorScheme.onPrimary,
       child: InkWell(
           onTap: widget.enabled
-              ? () {
-                  setState(() {
-                    widget.chip.toggle();
-                  });
-                  widget.onDone();
-                }
-              : () {},
+            ? () {
+                setState(() {
+                  widget.chip.toggle();
+                });
+                widget.onDone();
+              }
+            : () {},
           onLongPress: !widget.playing
-              ? () async {
-                  await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(AppLocalizations.of(context).deleteChip),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(AppLocalizations.of(context).no)),
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    widget.chip.takeAwayFromTable();
-                                  });
-                                  widget.onDelete();
-                                  Navigator.pop(context);
-                                },
-                                child: Text(AppLocalizations.of(context).yes)),
-                          ],
-                        );
-                      });
-                }
-              : () {},
+            ? () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(AppLocalizations.of(context).deleteChip),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(AppLocalizations.of(context).no)),
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.chip.takeAwayFromTable();
+                              });
+                              widget.onDelete();
+                              Navigator.pop(context);
+                            },
+                            child: Text(AppLocalizations.of(context).yes)),
+                      ],
+                    );
+                  });
+              }
+            : () {},
           child: Container(
             padding: EdgeInsets.symmetric(
               vertical: AppConstants.chipVerticalPadding,

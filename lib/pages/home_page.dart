@@ -1,6 +1,6 @@
-import 'package:bingo_it_all/models/chip_table.dart';
 import 'package:bingo_it_all/services/table_generators/bingo75_generator_service.dart';
 import 'package:bingo_it_all/services/table_generators/bingo90_generator_service.dart';
+import 'package:bingo_it_all/services/table_generators/empty_generator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bingo_it_all/constants/app_constants.dart';
@@ -36,8 +36,10 @@ class _HomePageState extends State<HomePage> {
               AppLocalizations.of(context).classic75Bingo,
               onPressed: () {
                 final service = Bingo75GeneratorService();
-                Provider.of<CurrentTable>(context, listen: false).currentTable =
-                    service.generateTable(
+                Provider.of<CurrentTable>(
+                  context,
+                  listen: false,
+                ).currentTable = service.generateTable(
                   name: AppLocalizations.of(context).classicBingo,
                 );
                 Navigator.pushNamed(context, AppConstants.chipTableRoute);
@@ -48,8 +50,10 @@ class _HomePageState extends State<HomePage> {
               AppLocalizations.of(context).classic90Bingo,
               onPressed: () {
                 final service = Bingo90GeneratorService();
-                Provider.of<CurrentTable>(context, listen: false).currentTable =
-                    service.generateTable(
+                Provider.of<CurrentTable>(
+                  context,
+                  listen: false,
+                ).currentTable = service.generateTable(
                   name: AppLocalizations.of(context).classicBingo,
                 );
                 Navigator.pushNamed(context, AppConstants.chipTableRoute);
@@ -60,7 +64,8 @@ class _HomePageState extends State<HomePage> {
               AppLocalizations.of(context).newTable,
               onPressed: () {
                 Provider.of<CurrentTable>(context, listen: false).currentTable =
-                    ChipTableModel.empty();
+                    EmptyGeneratorService()
+                    .generateTable(name: AppLocalizations.of(context).newTable);
                 Navigator.pushNamed(context, AppConstants.chipTableRoute);
               },
             ),

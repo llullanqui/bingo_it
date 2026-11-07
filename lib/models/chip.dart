@@ -5,11 +5,12 @@ class ChipModel {
   bool _done = false;
   final String _text;
   final ChipTableModel _table;
-  final ChipTableColumnModel? category;
+  ChipTableColumnModel? category;
   int? row;
+  int order;
 
-  ChipModel.withDone(this._text, this._done, this._table, {this.category, this.row = 0});
-  ChipModel(this._text, this._table, {this.category, this.row = 0});
+  ChipModel.withDone(this._text, this._done, this._table, {this.category, this.row = 0, this.order = 0});
+  ChipModel(this._text, this._table, {this.category, this.row = 0, this.order = 0});
 
   bool get done {
     return _done;
