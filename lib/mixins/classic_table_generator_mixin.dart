@@ -21,6 +21,7 @@ mixin ClassicTableGeneratorMixin {
           order: numbers.indexOf(number)*range + i + 1);
       });
     }
+    table.numberOfColumns = columns.length;
     if (name != null) {
       table.name = name;
     }

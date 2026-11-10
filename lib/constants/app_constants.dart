@@ -24,6 +24,7 @@ class AppConstants {
   static const double homePageSpacing = 48.0;
   static const double homePageButtonSpacing = 24.0;
   static const double homePageButtonWidth = 220.0;
+  static const double gridModifierSpaceFromOpener = 125.0;
   static const List<String> classicBingo75Columns = [
     'B',
     'I',

@@ -1,3 +1,4 @@
+import 'package:bingo_it_all/enums/chip_table_type.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:bingo_it_all/models/chip.dart';
@@ -6,6 +7,8 @@ import 'package:bingo_it_all/models/chip_table_column.dart';
 class ChipTableModel {
   late String id;
   String? name;
+  int _numberOfColumns = 1;
+  ChipTableType chipTableType = ChipTableType.customBingo;
   int _totalChips = 0;
   int _doneChips = 0;
   bool _completed = false;
@@ -25,6 +28,7 @@ class ChipTableModel {
       'completed': _completed,
       'name': name,
       'id': id,
+      'numberOfColumns': _numberOfColumns,
       'columns': _columns
           .map(
             (column) => {
@@ -52,6 +56,7 @@ class ChipTableModel {
     table._completed = json['completed'];
     table.name = json['name'];
     table.id = json['id'];
+    table.numberOfColumns = json['numberOfColumns'];
     table._columns = (json['columns'] as List)
         .map(
           (columnData) => ChipTableColumnModel(
@@ -64,18 +69,20 @@ class ChipTableModel {
     return table;
   }
 
-  ChipTableModel(this._chips) {
+  ChipTableModel(this._chips, this.chipTableType, this._numberOfColumns) {
     var uuid = Uuid();
     id = uuid.v4();
     _totalChips = _chips.length;
   }
-  ChipTableModel.name(this.name) {
+  ChipTableModel.name(this.name, this.chipTableType, this._numberOfColumns) {
     var uuid = Uuid();
     id = uuid.v4();
   }
   ChipTableModel.empty() {
     var uuid = Uuid();
     id = uuid.v4();
+    _numberOfColumns = 1;
+    chipTableType = ChipTableType.customBingo;
   }
 
   List<ChipModel> get sortedChipsByRowAndCategory {
@@ -173,5 +180,17 @@ class ChipTableModel {
 
   void toggleDisplayColumns() {
     _displayColumns = !_displayColumns;
+  }
+
+  set numberOfColumns(int quantity) {
+    if (modifiableNumberOfColumns && quantity >= 1 && quantity <= 4) _numberOfColumns = quantity;
+  }
+
+  int get numberOfColumns {
+    return _numberOfColumns;
+  }
+
+  bool get modifiableNumberOfColumns {
+    return chipTableType == ChipTableType.customBingo;
   }
 }

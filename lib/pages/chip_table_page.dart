@@ -53,6 +53,12 @@ class ChipTablePageState extends State<ChipTablePage> {
     super.dispose();
   }
 
+  void changeNumberOfColumns(int newNumberOfColumns) {
+    setState(() {
+      chipTable!.numberOfColumns = newNumberOfColumns;
+    });
+  }
+
   bool _minimumAmountFilled() {
     return chipTable!.chipsAmount >= AppConstants.minimumChips;
   }
@@ -406,7 +412,9 @@ class ChipTablePageState extends State<ChipTablePage> {
           ],
         ),
       ),
-      floatingActionButton: _GridModifier(),
+      floatingActionButton: chipTable!.modifiableNumberOfColumns ? _GridModifier(
+        onPressed: changeNumberOfColumns,
+      ) : null,
       persistentFooterButtons: _actions(),
     );
   }
@@ -430,20 +438,34 @@ class BottomBarButton extends StatelessWidget {
 }
 
 class _GridModifier extends StatelessWidget {
-  const _GridModifier({super.key});
+  final Function(int)? onPressed;
+  const _GridModifier({this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return OptionListButton(
-      distance: 125,
+      distance: AppConstants.gridModifierSpaceFromOpener,
       children: [
+        OptionButton(
+          icon: Icon(Icons.looks_one),
+          tag: AppConstants.grid1HeroTag,
+          onPressed: onPressed != null ? () => onPressed!(1) : null,
+        ),
         OptionButton(
           icon: Icon(Icons.looks_two),
           tag: AppConstants.grid2HeroTag,
+          onPressed: onPressed != null ? () => onPressed!(2) : null,
         ),
-        OptionButton(icon: Icon(Icons.looks_3), tag: AppConstants.grid3HeroTag),
-        OptionButton(icon: Icon(Icons.looks_4), tag: AppConstants.grid4HeroTag),
-        OptionButton(icon: Icon(Icons.looks_5), tag: AppConstants.grid5HeroTag),
+        OptionButton(
+          icon: Icon(Icons.looks_3), 
+          tag: AppConstants.grid3HeroTag,
+          onPressed: onPressed != null ? () => onPressed!(3) : null,
+        ),
+        OptionButton(
+          icon: Icon(Icons.looks_4),
+          tag: AppConstants.grid4HeroTag,
+          onPressed: onPressed != null ? () => onPressed!(4) : null,
+        )
       ],
     );
   }

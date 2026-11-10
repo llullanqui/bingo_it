@@ -85,9 +85,7 @@ class _ChipTableState extends State<ChipTable> {
         return SingleChildScrollView(
           child: widget.chipTable!.chipsAmount > 0
               ? GridBuilder(
-                  columns: widget.chipTable!.tableColumns.isNotEmpty
-                      ? widget.chipTable!.tableColumns.length
-                      : AppConstants.defaultColumnsAmount,
+                  columns: widget.chipTable!.numberOfColumns,
                   children: chipsTableWidget(
                     widget.chipTable?.isCompleted ?? false,
                   ),
